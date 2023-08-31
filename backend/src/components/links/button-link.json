@@ -18,12 +18,15 @@
     "text": {
       "type": "string"
     },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "primary",
-        "secondary"
-      ]
+    "picture": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

@@ -13,6 +13,14 @@ const populate = {
       buttons: {
         populate: true,
       },
+      products: {
+        populate: {
+          fields: ["name", "description"],
+          media: {
+            fields: ["url", "alternativeText", "caption", "width", "height"],
+          },
+        },
+      },
       feature: {
         populate: {
           fields: ["title", "description", "showLink", "newTab", "url", "text"],
