@@ -14,30 +14,31 @@ export interface Product {
     url: string;
     cover: {
       data: {
-          attributes: {
-              url: string;
-          };
+        attributes: {
+          url: string;
+        };
       };
     };
-  }
+  };
 }
 
 function ProductCard({ id, attributes }: Product) {
   console.log(attributes);
-  // const imageUrl = getStrapiMedia(cover.data?.attributes.url);
-  // console.log(imageUrl);
+  const imageUrl = getStrapiMedia(attributes.cover.data?.attributes.url);
+  console.log(imageUrl);
   return (
-    <div className="flex flex-col items-center p-4">
-      {/* <Image
-              className="h-full ml-4"
-              src="{imageUrl}"
-              alt="icon-search"
-              width={20}
-              height={20}
-            /> */}
+    <div className="flex flex-col items-center max-w-sm rounded-lg shadowgray-200 rounded-lg shadow">
+      {imageUrl && (
+        <Image
+          className="rounded-t-lg w-full"
+          src={imageUrl}
+          alt="icon-search"
+          width={120}
+          height={120}
+        />
+      )}
       <h3 className="my-3 text-sm font-semibold">{attributes.name}</h3>
-      <div className="space-y-1 leading-tight my-6">
-      </div>
+      <div className="space-y-1 leading-tight my-6"></div>
     </div>
   );
 }
