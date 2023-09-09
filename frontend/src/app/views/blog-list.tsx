@@ -59,7 +59,7 @@ export default function PostList({
           );
 
           const category = article.attributes.category.data?.attributes;
-          const authorsBio = article.attributes.authorsBio.data?.attributes;
+          const authorsBio = article.attributes.authorsBio?.data?.attributes;
 
           const avatarUrl = getStrapiMedia(
             authorsBio?.avatar.data.attributes.url

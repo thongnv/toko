@@ -2,10 +2,10 @@ import PageHeader from '@/app/components/PageHeader';
 import { fetchAPI } from '@/app/utils/fetch-api';
 import BlogList from '@/app/views/blog-list';
 
-async function fetchPostsByCategory(filter: string) {
+async function fetchProductsByCategory(filter: string) {
     try {
         const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
-        const path = `/articles`;
+        const path = `/products`;
         const urlParamsObject = {
             sort: { createdAt: 'desc' },
             filters: {
@@ -17,10 +17,7 @@ async function fetchPostsByCategory(filter: string) {
                 cover: { fields: ['url'] },
                 category: {
                     populate: '*',
-                },
-                authorsBio: {
-                    populate: '*',
-                },
+                }
             },
         };
         const options = { headers: { Authorization: `Bearer ${token}` } };
@@ -33,7 +30,7 @@ async function fetchPostsByCategory(filter: string) {
 
 export default async function CategoryRoute({ params }: { params: { category: string } }) {
     const filter = params.category;
-    const { data } = await fetchPostsByCategory(filter);
+    const { data } = await fetchProductsByCategory(filter);
 
     //TODO: CREATE A COMPONENT FOR THIS
     if (data.length === 0) return <div>Not Posts In this category</div>;

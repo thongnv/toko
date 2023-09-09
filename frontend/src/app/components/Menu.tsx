@@ -7,54 +7,42 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { HomeOutlined, UserOutlined } from "@ant-design/icons";
+import { getStrapiMedia } from "../utils/api-helpers";
+import { Category } from "../layout";
 
 interface NavLink {
-  id: number;
-  url: string;
-  newTab: boolean;
-  text: string;
-  icon: string;
+  name: string;
+  slug: string;
+  icon: any;
 }
 
 interface MobileNavLink extends NavLink {
   closeMenu: () => void;
 }
 
-function NavLink({ url, text, icon }: NavLink) {
-  const path = usePathname();
-
+function NavLink({ slug, name, icon }: NavLink) {
+  const imageUrl = getStrapiMedia(icon.data?.attributes.url);
   return (
     <li className="flex items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-100 group">
-      {icon === "home" && (
-        <HomeOutlined
-          className={`flex ${path === url && "text-blue-500"}`}
-          rev={1}
-        />
-      )}
-      {icon === "user" && (
-        <UserOutlined
-          className={`flex ${path === url && "text-blue-500"}`}
-          rev={1}
-        />
-      )}
+      {imageUrl && <Image src={imageUrl} alt="logo" width={35} height={35} />}
       <Link
-        href={url}
-        className={`flex mx-2 ${path === url && "text-blue-500"}`}
+        href={slug}
+        className="flex mx-2"
       >
-        {text}
+        {name}
       </Link>
     </li>
   );
 }
 
-function MobileNavLink({ url, text, closeMenu }: MobileNavLink) {
+function MobileNavLink({ slug, name, icon, closeMenu }: MobileNavLink) {
   const path = usePathname();
   const handleClick = () => {
     closeMenu();
   };
   return (
     <a className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-100 group">
-      <Link
+      {/* <Link
         href={url}
         onClick={handleClick}
         className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-100 hover:bg-gray-100 ${
@@ -62,12 +50,12 @@ function MobileNavLink({ url, text, closeMenu }: MobileNavLink) {
         }}`}
       >
         {text}
-      </Link>
+      </Link> */}
     </a>
   );
 }
 
-export default function Menu({ links }: { links: Array<NavLink> }) {
+export default function Menu({ links }: { links: Array<Category> }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => {
     setMobileMenuOpen(false);
@@ -80,8 +68,8 @@ export default function Menu({ links }: { links: Array<NavLink> }) {
       <div className="sticky top-6 z-40 p-2 overflow-y-auto bg-white rounded-lg text-sm">
         <ul className="font-small">
         <h3 className="p-2">Danh mục</h3>
-          {links.map((item: NavLink) => (
-            <NavLink key={item.id} {...item} />
+          {links.map((item: Category) => (
+            <NavLink key={item.id} {...item.attributes} />
           ))}
         </ul>
       </div>
