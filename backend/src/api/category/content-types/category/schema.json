@@ -19,14 +19,24 @@
       "type": "uid",
       "targetField": "name"
     },
-    "articles": {
+    "products": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::article.article",
+      "target": "api::product.product",
       "mappedBy": "category"
     },
     "description": {
       "type": "text"
+    },
+    "icon": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }
