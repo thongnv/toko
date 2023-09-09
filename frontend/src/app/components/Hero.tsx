@@ -31,7 +31,7 @@ interface HeroProps {
     description: string;
     picture: Picture;
     buttons: Button[];
-    products: {data: Product[]};
+    products: { data: Product[] };
   };
 }
 
@@ -39,8 +39,8 @@ export default function Home({ data }: HeroProps) {
   const products = data.products.data;
   return (
     <section>
-      <div className="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
-        <div className="flex flex-col justify-center p-6 text-center rounded-lg lg:text-left">
+      <div className="container flex flex-col justify-center p-6 mx-auto lg:flex-row lg:justify-between">
+        <div className="flex flex-col justify-center text-center rounded-lg lg:text-left">
           <HighlightedText
             text={data.title}
             tag="h1"
@@ -56,7 +56,7 @@ export default function Home({ data }: HeroProps) {
           />
           <section className="">
             <div className="container mx-auto my-6 grid justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Products products={products} />
+              <Products products={products} />
             </div>
           </section>
         </div>

@@ -25,7 +25,7 @@ export interface Product {
 function ProductCard({ id, attributes }: Product) {
   const imageUrl = getStrapiMedia(attributes.cover.data?.attributes.url);
   return (
-    <div className="flex flex-col items-center max-w-sm rounded-lg shadowgray-200 rounded-lg shadow cursor-pointer hover:shadow-lg">
+    <div className="flex flex-col items-center max-w-sm rounded-lg shadowgray-200 shadow cursor-pointer hover:shadow-lg">
       {imageUrl && (
         <Image
           className="rounded-t-lg w-full"
@@ -35,7 +35,7 @@ function ProductCard({ id, attributes }: Product) {
           height={120}
         />
       )}
-      <h3 className="my-3 px-2  text-sm font-semibold">{attributes.name}</h3>
+      <h3 className="my-3 px-2  text-sm">{attributes.name}</h3>
       <div className="space-y-1 leading-tight my-6"></div>
     </div>
   );

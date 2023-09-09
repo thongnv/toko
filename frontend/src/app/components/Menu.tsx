@@ -74,11 +74,12 @@ export default function Menu({ links }: { links: Array<NavLink> }) {
   };
   return (
     <aside
-      className="sticky top-6 left-0 z-40 w-64 h-screen rounded-lg m-6 transition-transform -translate-x-full bg-white sm:translate-x-0"
+      className="w-64 m-6 ml-3 transition-transform -translate-x-full sm:translate-x-0"
       aria-label="Sidebar"
     >
-      <div className="h-full p-4 pb-4 overflow-y-auto bg-white ">
-        <ul className="space-y-2 font-medium">
+      <div className="sticky top-6 z-40 p-2 overflow-y-auto bg-white rounded-lg text-sm">
+        <ul className="font-small">
+        <h3 className="p-2">Danh mục</h3>
           {links.map((item: NavLink) => (
             <NavLink key={item.id} {...item} />
           ))}

@@ -10,7 +10,7 @@ import {FALLBACK_SEO} from "@/app/utils/constants";
 import Menu from "./components/Menu";
 
 
-async function getGlobal(): Promise<any> {
+export async function getGlobal(): Promise<any> {
   const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
 
   if (!token) throw new Error("The Strapi API Token environment variable is not set.");
@@ -79,12 +79,12 @@ export default async function RootLayout({
           logoUrl={navbarLogoUrl}
           logoText={navbar.navbarLogo.logoText}
         />
-        <Menu
-        links={navbar.links}
-        />
 
-        <main className="min-h-screen">
-          {children}
+        <main className="min-h-screen flex">
+          <Menu links={navbar.links} />
+          <section className="block mt-6">
+            {children}
+          </section>
         </main>
 
         <Banner data={notificationBanner} />
