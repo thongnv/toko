@@ -7,6 +7,7 @@ import Banner from "./components/Banner";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import {FALLBACK_SEO} from "@/app/utils/constants";
+import Menu from "./components/Menu";
 
 
 async function getGlobal(): Promise<any> {
@@ -72,11 +73,14 @@ export default async function RootLayout({
 
   return (
     <html>
-      <body>
+      <body className="bg-gray-100">
         <Navbar
           links={navbar.links}
           logoUrl={navbarLogoUrl}
           logoText={navbar.navbarLogo.logoText}
+        />
+        <Menu
+        links={navbar.links}
         />
 
         <main className="min-h-screen">
