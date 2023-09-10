@@ -123,7 +123,7 @@ export default async function RootLayout({
 
         <main className="min-h-screen flex">
           <Menu links={categories} />
-          <section className="block mt-6">
+          <section className="block mt-6 mr-2 w-full">
             {children}
           </section>
         </main>

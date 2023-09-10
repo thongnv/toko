@@ -39,12 +39,12 @@ export default function Home({ data }: HeroProps) {
   const products = data.products.data;
   return (
     <section>
-      <div className="container flex flex-col justify-center p-6 mx-auto lg:flex-row lg:justify-between">
+      <div className="flex flex-col justify-center bg-white rounded-lg p-6 lg:mx-auto lg:flex-row lg:justify-between mx-6 mb-4">
         <div className="flex flex-col justify-center text-center rounded-lg lg:text-left">
           <HighlightedText
             text={data.title}
             tag="h1"
-            className="font-bold leading-none sm:text-lg mb-8"
+            className="font-bold leading-none sm:text-lg"
             color="dark:text-violet-400"
           />
 

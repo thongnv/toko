@@ -62,7 +62,7 @@ export default function Menu({ links }: { links: Array<Category> }) {
   };
   return (
     <aside
-      className="w-64 m-6 ml-3 transition-transform -translate-x-full sm:translate-x-0"
+      className="w-64 m-6 transition-transform -translate-x-full sm:translate-x-0 hidden lg:block"
       aria-label="Sidebar"
     >
       <div className="sticky top-6 z-40 p-2 overflow-y-auto bg-white rounded-lg text-sm">
