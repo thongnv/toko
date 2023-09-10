@@ -48,12 +48,12 @@ export default function Home({ data }: HeroProps) {
             color="dark:text-violet-400"
           />
 
-          <HighlightedText
+          {data.description && <HighlightedText
             text={data.description}
             tag="p"
             className="text-lg"
             color="dark:text-violet-400"
-          />
+          />}
           <section className="">
             <div className="container mx-auto my-6 grid justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <Products products={products} />
