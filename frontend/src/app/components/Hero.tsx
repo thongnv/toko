@@ -1,8 +1,4 @@
-import Link from "next/link";
-import Image from "next/image";
 import HighlightedText from "./HighlightedText";
-import { getStrapiMedia } from "../utils/api-helpers";
-import { renderButtonStyle } from "../utils/render-button-style";
 import Products, { Product } from "./Products";
 
 interface Button {
@@ -38,28 +34,28 @@ interface HeroProps {
 export default function Home({ data }: HeroProps) {
   const products = data.products.data;
   return (
-    <section>
-      <div className="flex flex-col justify-center bg-white rounded-lg p-6 lg:mx-auto lg:flex-row lg:justify-between mx-6 mb-4">
-        <div className="flex flex-col justify-center text-center rounded-lg lg:text-left">
-          <HighlightedText
-            text={data.title}
-            tag="h1"
-            className="font-bold leading-none sm:text-lg"
-            color="dark:text-violet-400"
-          />
+    <section className="flex flex-col justify-center bg-white rounded-lg p-6 lg:mx-auto lg:flex-row lg:justify-between mx-6 mb-4">
+      <div className="flex flex-col justify-center text-center rounded-lg lg:text-left">
+        <HighlightedText
+          text={data.title}
+          tag="h1"
+          className="font-bold leading-none sm:text-lg"
+          color="dark:text-violet-400"
+        />
 
-          {data.description && <HighlightedText
+        {data.description && (
+          <HighlightedText
             text={data.description}
             tag="p"
             className="text-lg"
             color="dark:text-violet-400"
-          />}
-          <section className="">
-            <div className="container mx-auto my-6 grid justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <Products products={products} />
-            </div>
-          </section>
-        </div>
+          />
+        )}
+        <section className="">
+          <div className="container mx-auto my-6 grid justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <Products products={products} />
+          </div>
+        </section>
       </div>
     </section>
   );

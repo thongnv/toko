@@ -12,11 +12,10 @@
     "description": {
       "type": "text"
     },
-    "feature": {
-      "displayName": "Feature",
-      "type": "component",
-      "repeatable": true,
-      "component": "elements.feature"
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product"
     }
   }
 }
