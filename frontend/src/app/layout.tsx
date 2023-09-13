@@ -101,7 +101,6 @@ export default async function RootLayout({
   if (!global.data) return null;
   const { category } = params;
   const { categories } = (await fetchSideMenuData(category)) as Data;
-  console.log(categories)
   const { notificationBanner, navbar, footer } = global.data.attributes;
 
   const navbarLogoUrl = getStrapiMedia(
