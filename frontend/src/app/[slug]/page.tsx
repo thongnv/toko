@@ -26,7 +26,6 @@ export default async function ProductRoute({ params }: { params: { slug: string 
 
     //TODO: CREATE A COMPONENT FOR THIS
     if (data.length === 0) return <div>Not Posts In this category</div>;
-    console.log(data);
     // {
     //     id: 1,
     //     [0]     attributes: {
@@ -42,9 +41,11 @@ export default async function ProductRoute({ params }: { params: { slug: string 
     const { name, description } = data[0]?.attributes;
 
     return (
-        <div>
-            <PageHeader heading={name} text={description} />
-            {/* <BlogList data={data} /> */}
+        <div className='flex gap-3 ml-4 mt-4 mr-2'>
+            {/* <PageHeader heading={name} text={description} /> */}
+            <div className="sticky top-4 w-1/3 bg-white">Left</div>
+            <div className="w-1/3 bg-white">content</div>
+            <div className="w-1/3 bg-white">right</div>
         </div>
     );
 }

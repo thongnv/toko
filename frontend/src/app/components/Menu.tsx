@@ -3,12 +3,9 @@ import Logo from "./Logo";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 import { getStrapiMedia } from "../utils/api-helpers";
-import { Category } from "../layout";
+import { Category } from "../page";
 
 interface NavLink {
   name: string;

@@ -7,23 +7,6 @@ import Banner from "./components/Banner";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import {FALLBACK_SEO} from "@/app/utils/constants";
-import Menu from "./components/Menu";
-import { Product } from "./components/Products";
-
-export interface Category {
-  id: number;
-  attributes: {
-    name: string;
-    slug: string;
-    icon: any;
-    products: {
-      data: Array<{}>;
-    };
-  };
-}
-interface Data {
-  categories: Category[];
-}
 
 export async function getGlobal(): Promise<any> {
   const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
@@ -67,40 +50,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function fetchSideMenuData(filter: string) {
-  try {
-    const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
-    const options = { headers: { Authorization: `Bearer ${token}` } };
-
-    const categoriesResponse = await fetchAPI(
-      "/categories",
-      { populate: "*" },
-      options
-    );
-
-    return {
-      categories: categoriesResponse.data,
-    };
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 export default async function RootLayout({
-  params,
   children,
 }: {
-  children: React.ReactNode;
-  params: {
-    slug: string;
-    category: string;
-  };
+  children: React.ReactNode
 }) {
   const global = await getGlobal();
   // TODO: CREATE A CUSTOM ERROR PAGE
   if (!global.data) return null;
-  const { category } = params;
-  const { categories } = (await fetchSideMenuData(category)) as Data;
   const { notificationBanner, navbar, footer } = global.data.attributes;
 
   const navbarLogoUrl = getStrapiMedia(
@@ -120,11 +77,8 @@ export default async function RootLayout({
           logoText={navbar.navbarLogo.logoText}
         />
 
-        <main className="min-h-screen flex">
-          <Menu links={categories} />
-          <section className="block mt-6 mr-2 w-full">
+        <main className="min-h-screen">
             {children}
-          </section>
         </main>
 
         <Banner data={notificationBanner} />
