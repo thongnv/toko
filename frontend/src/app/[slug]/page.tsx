@@ -52,7 +52,7 @@ export default async function ProductRoute({
   return (
     <div className="flex gap-3 lg:ml-4 lg:mx-4 mt-4">
       {/* <PageHeader heading={name} text={description} /> */}
-      <div className="sticky top-4 w-full bg-white rounded-lg hover:shadow-lg">
+      <div className="sticky top-4 mx-auto bg-white rounded-lg hover:shadow-lg md:w-1/2 lg:w-1/3">
         <div className="flex flex-col gap-2 items-center p-4">
           <div className="border rounded-lg overflow-hidden cursor-pointer">
             {imageUrl && (
@@ -78,8 +78,8 @@ export default async function ProductRoute({
           </div>
         </div>
       </div>
-      <div className="w-64 bg-white hidden lg:block">content</div>
-      <div className="w-64 bg-white hidden lg:block">right</div>
+      <div className="w-64 bg-white hidden rounded-lg md:block md:w-1/2 lg:w-1/3">content</div>
+      <div className="w-64 bg-white hidden rounded-lg lg:block lg:w-1/3">right</div>
     </div>
   );
 }
