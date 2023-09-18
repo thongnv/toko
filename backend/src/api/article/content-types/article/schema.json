@@ -54,6 +54,9 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.seo"
+    },
+    "price": {
+      "type": "integer"
     }
   }
 }

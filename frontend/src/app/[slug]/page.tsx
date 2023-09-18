@@ -4,6 +4,7 @@ import BlogList from "@/app/views/blog-list";
 import { getStrapiMedia } from "../utils/api-helpers";
 import Image from "next/image";
 import { Data } from "../utils/model";
+import { currencyFormat } from "../utils/product.helper";
 
 async function fetchProductBySlug(filter: string) {
   try {
@@ -49,6 +50,8 @@ export default async function ProductRoute({
   const images = data[0].attributes.images.data as Data[];
 
   const imageUrl = getStrapiMedia(images[0].attributes.url);
+
+  const price = currencyFormat(data[0].attributes.price)
   return (
     <div className="flex gap-3 lg:ml-4 lg:mx-4 mt-4">
       {/* <PageHeader heading={name} text={description} /> */}
@@ -69,7 +72,7 @@ export default async function ProductRoute({
               const url = getStrapiMedia(image.attributes.url);
               return (
                 url && (
-                  <div className="border rounded-sm overflow-hidden cursor-pointer">
+                  <div className="border rounded-sm overflow-hidden cursor-pointer p-1">
                     <Image src={url} alt="icon-search" width={47} height={47} />
                   </div>
                 )
@@ -78,7 +81,10 @@ export default async function ProductRoute({
           </div>
         </div>
       </div>
-      <div className="w-64 bg-white hidden rounded-lg md:block md:w-1/2 lg:w-1/3">content</div>
+      <div className="w-64 bg-white hidden rounded-lg md:block md:w-1/2 lg:w-1/3 p-4">
+        <div className="text-xl">{data[0].attributes.name}</div>
+        <div className="text-2xl">{price}</div>
+      </div>
       <div className="w-64 bg-white hidden rounded-lg lg:block lg:w-1/3">right</div>
     </div>
   );
