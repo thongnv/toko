@@ -1,8 +1,6 @@
-import PageHeader from "@/app/components/PageHeader";
 import { fetchAPI } from "@/app/utils/fetch-api";
-import BlogList from "@/app/views/blog-list";
-import { getStrapiMedia } from "../utils/api-helpers";
 import Image from "next/image";
+import { getStrapiMedia } from "../utils/api-helpers";
 import { Data } from "../utils/model";
 import { currencyFormat } from "../utils/product.helper";
 
@@ -51,11 +49,10 @@ export default async function ProductRoute({
 
   const imageUrl = getStrapiMedia(images[0].attributes.url);
 
-  const price = currencyFormat(data[0].attributes.price)
+  const price = currencyFormat(data[0].attributes.price);
   return (
     <div className="flex gap-3 lg:ml-4 lg:mx-4 mt-4">
-      {/* <PageHeader heading={name} text={description} /> */}
-      <div className="sticky top-4 mx-auto bg-white rounded-lg hover:shadow-lg md:w-1/2 lg:w-1/3">
+      <div className="sticky top-4 mx-auto bg-white rounded-lg md:w-1/2 lg:w-1/3">
         <div className="flex flex-col gap-2 items-center p-4">
           <div className="border rounded-lg overflow-hidden cursor-pointer">
             {imageUrl && (
@@ -81,21 +78,45 @@ export default async function ProductRoute({
           </div>
         </div>
       </div>
+      {/* content */}
       <div className="w-64 bg-white hidden rounded-lg h-full md:block md:w-1/2 lg:w-1/3 p-4">
         <div className="text-xl">{data[0].attributes.name}</div>
         <div className="text-2xl pb-4">{price}</div>
         <div className="text-sm font-bold">Màu</div>
         <div className="flex gap-2 my-3">
-            <button className="border border-2 border-blue-600 rounded-lg px-2">Tím</button>
-            <button className="border rounded-lg px-2">Xanh Lá</button>
+          <button className="border border-2 border-blue-600 rounded-lg px-2">
+            Tím
+          </button>
+          <button className="border rounded-lg px-2">Xanh Lá</button>
         </div>
         <div className="text-sm font-bold">Dung lượng</div>
         <div className="flex gap-2 mt-2">
-            <button className="border border-2 border-blue-600 rounded-lg px-2">128GB</button>
-            <button className="border rounded-lg px-2">64GB</button>
+          <button className="border border-2 border-blue-600 rounded-lg px-2">
+            128GB
+          </button>
+          <button className="border rounded-lg px-2">64GB</button>
         </div>
       </div>
-      <div className="w-64 bg-white hidden rounded-lg lg:block lg:w-1/3">right</div>
+      {/* cart */}
+      <div className="w-64 bg-white h-full hidden rounded-lg lg:block lg:w-1/3 p-4">
+        <div className="mb-4">Tím, 128GB</div>
+        <div className="text-sm font-bold mb-2">Số Lượng</div>
+        <div className="flex gap-1 mb-4">
+          <button className="border rounded-lg px-3 py-1">-</button>
+          <button className="border rounded-lg px-4 py-1">1</button>
+          <button className="border rounded-lg px-3 py-1">+</button>
+        </div>
+        <div className="text-sm font-bold mb-4">Tạm tính</div>
+        <div className="text-2xl pb-4">{price}</div>
+        <div className="flex flex-col gap-2 w-full">
+          <button className="border rounded py-2 bg-red-500 text-white font-extralight">
+            Mua ngay
+          </button>
+          <button className="border border-blue-600 rounded py-2 text-blue-600 font-light">
+            Thêm vào giỏ
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
