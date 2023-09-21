@@ -77,7 +77,7 @@ export default async function RootLayout({
           logoText={navbar.navbarLogo.logoText}
         />
 
-        <main className="min-h-screen">
+        <main className="container min-h-screen mx-auto">
             {children}
         </main>
 

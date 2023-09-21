@@ -35,7 +35,7 @@ export default function Home({ data }: HeroProps) {
   const products = data.products.data;
   return (
     <section className="flex flex-col justify-center bg-white rounded-lg p-6 lg:mx-auto lg:flex-row lg:justify-between mx-6 mb-4">
-      <div className="flex flex-col justify-center text-center rounded-lg lg:text-left">
+      <div className="flex flex-col justify-center rounded-lg">
         <HighlightedText
           text={data.title}
           tag="h1"
@@ -52,7 +52,7 @@ export default function Home({ data }: HeroProps) {
           />
         )}
         <section className="">
-          <div className="container mx-auto my-6 grid justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="my-6 flex gap-4">
             <Products products={products} />
           </div>
         </section>
