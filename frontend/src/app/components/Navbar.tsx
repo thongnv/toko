@@ -7,6 +7,7 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { HomeOutlined, UserOutlined } from "@ant-design/icons";
+import Search from "./Search";
 
 interface NavLink {
   id: number;
@@ -96,14 +97,7 @@ export default function Navbar({
               width={20}
               height={20}
             />
-            <input
-              type="text"
-              className="focus:outline-none w-96 px-2"
-              placeholder="Bạn tìm gì hôm nay"
-            />
-            <button className="w-24 h-10 text-indigo-500 text-sm	before:absolute before:block before:border-solid before:border-l before:border-violet-200 before:h-6 hover:bg-blue-100 rounded-r-lg">
-              Tìm kiếm
-            </button>
+            <Search />
           </div>
         </div>
 

@@ -84,14 +84,14 @@ export default async function ProductRoute({
         <div className="text-2xl pb-4">{price}</div>
         <div className="text-sm font-bold">Màu</div>
         <div className="flex gap-2 my-3">
-          <button className="border border-2 border-blue-600 rounded-lg px-2">
+          <button className="border border-blue-600 rounded-lg px-2">
             Tím
           </button>
           <button className="border rounded-lg px-2">Xanh Lá</button>
         </div>
         <div className="text-sm font-bold">Dung lượng</div>
         <div className="flex gap-2 mt-2">
-          <button className="border border-2 border-blue-600 rounded-lg px-2">
+          <button className="border border-blue-600 rounded-lg px-2">
             128GB
           </button>
           <button className="border rounded-lg px-2">64GB</button>
