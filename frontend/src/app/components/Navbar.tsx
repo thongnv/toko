@@ -1,6 +1,5 @@
 "use client";
 import Logo from "./Logo";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Dialog } from "@headlessui/react";
@@ -89,16 +88,8 @@ export default function Navbar({
         </Logo>
 
         <div className="items-center flex-shrink-0 hidden lg:flex">
-          <div className="border border-slate-100 rounded-lg flex items-center">
-            <Image
-              className="h-full ml-4"
-              src="https://salt.tikicdn.com/ts/upload/33/d0/37/6fef2e788f00a16dc7d5a1dfc5d0e97a.png"
-              alt="icon-search"
-              width={20}
-              height={20}
-            />
+          
             <Search />
-          </div>
         </div>
 
         <div className="items-center flex-shrink-0 lg:flex">
