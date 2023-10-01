@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { fetchAPI } from "../utils/fetch-api";
+import { Product } from "./Products";
 
 interface SearchResult {
   id: number;
@@ -9,23 +11,42 @@ interface SearchResult {
   icon: string;
 }
 
-function SearchMenu({items}: {items: Array<SearchResult>}) {
+async function searchProductsByInput(input: string) {
+  try {
+    const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
+    const path = `/products`;
+    const urlParamsObject = {
+      filters: {
+        name: {
+          $containsi: input,
+        }
+      }
+    };
+    const options = { headers: { Authorization: `Bearer ${token}` } };
+    const {data} = await fetchAPI(path, urlParamsObject, options);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function SearchMenu({items}: {items: Array<Product>}) {
   return <div>
-      {items.map(item => <div key={item.text} className="p-2 hover:bg-slate-300 cursor-pointer">{item.text}</div>)}
+      {items.map(item => <div key={item.id} className="p-2 hover:bg-slate-300 cursor-pointer">{item.attributes.name}</div>)}
     </div>;
 }
 
 export default function Search() {
   const [showMenu, setShowMenu] = useState(false);
   const items = [
-    {
-      id: 1,
-      url: 'hello-1',
-      text: 'iphone 12 pro max',
-      icon: 'hello-icon'
-    }
+      'iphone 12 pro max'
   ]
-  const [searchResults, setSearchResults] = useState(items);
+  const [searchResults, setSearchResults] = useState([] as Product[]);
+  const searchProducts = async (term: string) => {
+    console.log(term);
+    const products = await searchProductsByInput(term) as Product[];
+    setSearchResults(products);
+  }
   return (
     <div className="relative">
       <div className="border border-slate-100 rounded-lg flex items-center">
@@ -40,6 +61,7 @@ export default function Search() {
           type="text"
           className="focus:outline-none w-96 px-2"
           placeholder="Bạn tìm gì hôm nay"
+          onChange={(event) => searchProducts(event.target.value)}
           onClick={() => setShowMenu(true)}
           onBlur={() => setShowMenu(false)}
         />
