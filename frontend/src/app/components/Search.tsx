@@ -1,15 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useDebounce } from "@uidotdev/usehooks";
+
 import { fetchAPI } from "../utils/fetch-api";
 import { Product } from "./Products";
-
-interface SearchResult {
-  id: number;
-  url: string;
-  text: string;
-  icon: string;
-}
 
 async function searchProductsByInput(input: string) {
   try {
@@ -38,15 +33,20 @@ function SearchMenu({items}: {items: Array<Product>}) {
 
 export default function Search() {
   const [showMenu, setShowMenu] = useState(false);
-  const items = [
-      'iphone 12 pro max'
-  ]
+  const [searchTerm, setSeachTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [searchResults, setSearchResults] = useState([] as Product[]);
-  const searchProducts = async (term: string) => {
-    console.log(term);
-    const products = await searchProductsByInput(term) as Product[];
-    setSearchResults(products);
-  }
+
+  useEffect(() => {
+    (async () => {
+      let products = [] as Product[];
+      if (debouncedSearchTerm) {
+        products = await searchProductsByInput(searchTerm) as Product[];
+      }
+      setSearchResults(products);
+    })();
+  }, [debouncedSearchTerm])
+
   return (
     <div className="relative">
       <div className="border border-slate-100 rounded-lg flex items-center">
@@ -61,7 +61,7 @@ export default function Search() {
           type="text"
           className="focus:outline-none w-96 px-2"
           placeholder="Bạn tìm gì hôm nay"
-          onChange={(event) => searchProducts(event.target.value)}
+          onChange={(event) => setSeachTerm(event.target.value)}
           onClick={() => setShowMenu(true)}
           onBlur={() => setShowMenu(false)}
         />
