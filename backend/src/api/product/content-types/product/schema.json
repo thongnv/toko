@@ -52,6 +52,9 @@
     },
     "price": {
       "type": "integer"
+    },
+    "productInfo": {
+      "type": "json"
     }
   }
 }
