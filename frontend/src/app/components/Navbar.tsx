@@ -24,7 +24,7 @@ function NavLink({ url, text, icon }: NavLink) {
   const path = usePathname();
 
   return (
-    <li className="flex items-center mx-4 -mb-1 border-b-2 dark:border-transparent">
+    <li className="flex items-center p-4 border-b-2 dark:border-transparent rounded-lg hover:bg-slate-200">
       {icon === "home" && (
         <HomeOutlined
           className={ `flex ${path === url && "text-blue-500" }`}
@@ -93,7 +93,7 @@ export default function Navbar({
         </div>
 
         <div className="items-center flex-shrink-0 lg:flex">
-          <ul className="items-stretch hidden space-x-3 lg:flex">
+          <ul className="items-stretch hidden h-10 space-x-3 lg:flex">
             {links.map((item: NavLink) => (
               <NavLink key={item.id} {...item} />
             ))}
