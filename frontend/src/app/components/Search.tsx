@@ -14,26 +14,36 @@ async function searchProductsByInput(input: string) {
       filters: {
         name: {
           $containsi: input,
-        }
-      }
+        },
+      },
     };
     const options = { headers: { Authorization: `Bearer ${token}` } };
-    const {data} = await fetchAPI(path, urlParamsObject, options);
+    const { data } = await fetchAPI(path, urlParamsObject, options);
     return data;
   } catch (error) {
     console.error(error);
   }
 }
 
-function SearchMenu({items}: {items: Array<Product>}) {
-  return <div>
-      {items.map(item => <div key={item.id} className="p-2 hover:bg-slate-300 cursor-pointer">{item.attributes.name}</div>)}
-    </div>;
+function SearchMenu({ items }: { items: Array<Product> }) {
+  return (
+    <div>
+      {items.map((item) => (
+        <a
+          href={item.attributes.url}
+          key={item.id}
+          className="block p-2 hover:bg-slate-300 cursor-pointer"
+        >
+          {item.attributes.name}
+        </a>
+      ))}
+    </div>
+  );
 }
 
 export default function Search() {
   const [showMenu, setShowMenu] = useState(false);
-  const [searchTerm, setSeachTerm] = useState('');
+  const [searchTerm, setSeachTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [searchResults, setSearchResults] = useState([] as Product[]);
 
@@ -41,11 +51,17 @@ export default function Search() {
     (async () => {
       let products = [] as Product[];
       if (debouncedSearchTerm) {
-        products = await searchProductsByInput(searchTerm) as Product[];
+        products = (await searchProductsByInput(searchTerm)) as Product[];
       }
       setSearchResults(products);
     })();
-  }, [debouncedSearchTerm])
+  }, [debouncedSearchTerm]);
+
+  const handleCloseMenu = async () => {
+    setTimeout(() => {
+      setShowMenu(false);
+    }, 100);
+  };
 
   return (
     <div className="relative">
@@ -63,16 +79,18 @@ export default function Search() {
           placeholder="Bạn tìm gì hôm nay"
           onChange={(event) => setSeachTerm(event.target.value)}
           onClick={() => setShowMenu(true)}
-          onBlur={() => setShowMenu(false)}
+          onBlur={handleCloseMenu}
         />
 
         <button className="w-24 h-10 text-indigo-500 text-sm	before:absolute before:block before:border-solid before:border-l before:border-violet-200 before:h-6 hover:bg-blue-100 rounded-r-lg">
           Tìm kiếm
         </button>
       </div>
-      {showMenu && <div className="absolute bg-white border min-h-[475px] shadow-lg w-full z-50">
-        <SearchMenu items={searchResults}/>
-      </div>}
+      {showMenu && (
+        <div className="absolute bg-white border min-h-[475px] shadow-lg w-full z-50">
+          <SearchMenu items={searchResults} />
+        </div>
+      )}
     </div>
   );
 }
