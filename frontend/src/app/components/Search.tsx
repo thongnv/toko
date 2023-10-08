@@ -27,7 +27,16 @@ async function searchProductsByInput(input: string) {
 
 function SearchMenu({ items }: { items: Array<Product> }) {
   return (
-    <div>
+    <div className="text-sm">
+      {!items.length && (
+        <div className="p-2">
+          <div className="text-base font-light">Tìm Kiếm Phổ Biến</div>
+          <ul className="list-disc px-4">
+            <li>iphone 15</li>
+            <li>garmin forrunner</li>
+          </ul>
+        </div>
+      )}
       {items.map((item) => (
         <a
           href={item.attributes.url}
@@ -78,7 +87,7 @@ export default function Search() {
           className="focus:outline-none w-96 px-2"
           placeholder="Bạn tìm gì hôm nay"
           onChange={(event) => setSeachTerm(event.target.value)}
-          onClick={() => setShowMenu(true)}
+          onFocus={() => setShowMenu(true)}
           onBlur={handleCloseMenu}
         />
 
