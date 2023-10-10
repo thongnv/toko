@@ -73,7 +73,7 @@ export default function Search() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-[700px]">
       <div className="border border-slate-100 rounded-lg flex items-center">
         <Image
           className="h-full ml-4"
@@ -84,7 +84,7 @@ export default function Search() {
         />
         <input
           type="text"
-          className="focus:outline-none w-96 px-2"
+          className="focus:outline-none w-full px-2"
           placeholder="Bạn tìm gì hôm nay"
           onChange={(event) => setSeachTerm(event.target.value)}
           onFocus={() => setShowMenu(true)}
