@@ -25,16 +25,18 @@ function Feature({ id, attributes }: Product) {
   const imageUrl = getStrapiMedia(attributes.cover.data?.attributes.url);
   return (
     <div className="flex flex-col items-center max-w-sm w-32 rounded-lg shadowgray-200 shadow cursor-pointer hover:shadow-lg">
-      {imageUrl && (
-        <Image
-          className="rounded-t-lg w-full"
-          src={imageUrl}
-          alt="icon-search"
-          width={120}
-          height={120}
-        />
-      )}
-      <h4 className="my-3 px-2  text-xs">{attributes.name}</h4>
+      <a href={attributes.url}>
+        {imageUrl && (
+          <Image
+            className="rounded-t-lg w-full"
+            src={imageUrl}
+            alt="icon-search"
+            width={120}
+            height={120}
+          />
+        )}
+        <h4 className="my-3 px-2  text-xs">{attributes.name}</h4>
+      </a>
     </div>
   );
 }
@@ -60,13 +62,12 @@ export default function Features({ data }: FeaturesProps) {
         )}
         <section className="">
           <div className="my-6 flex gap-4">
-          {data.products.data.map((product: Product, index: number) => (
-          <Feature key={index} {...product} />
-        ))}
+            {data.products.data.map((product: Product, index: number) => (
+              <Feature key={index} {...product} />
+            ))}
           </div>
         </section>
       </div>
     </section>
   );
-  
 }

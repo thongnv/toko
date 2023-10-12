@@ -73,7 +73,7 @@ export default function Search() {
   };
 
   return (
-    <div className="relative w-[700px]">
+    <div className="relative min-w-[600px]">
       <div className="border border-slate-100 rounded-lg flex items-center">
         <Image
           className="h-full ml-4"
