@@ -1,15 +1,37 @@
 import Image from "next/image";
 import { getStrapiMedia } from "../utils/api-helpers";
+import { Data } from "../utils/model";
 
 interface ProductsProps {
   products: Product[];
 }
+
+  //   "id": 1,
+  //   "attributes": {
+  //     "name": "Apple iPhone 12",
+  //     "description": null,
+  //     "createdAt": "2023-09-30T16:09:09.782Z",
+  //     "updatedAt": "2023-10-02T15:28:06.078Z",
+  //     "publishedAt": "2023-09-30T16:09:59.858Z",
+  //     "url": "apple-i-phone-12",
+  //     "price": 14650000,
+  //     "productInfo": {
+  //       "Thương hiệu": "Apple",
+  //       "Loại/ Công nghệ màn hình": "Super Retina XDR"
+  //     }
+  //   }
+  // },
 
 export interface Product {
   id: number;
   attributes: {
     name: string;
     url: string;
+    price: number;
+    productInfo: Record<string, string>;
+    images: {
+      data: Data[];
+    }
     cover: {
       data: {
         attributes: {

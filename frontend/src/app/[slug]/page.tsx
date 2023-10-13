@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getStrapiMedia } from "../utils/api-helpers";
 import { Data } from "../utils/model";
 import { currencyFormat } from "../utils/product.helper";
+import { Product } from "../components/Products";
 
 async function fetchProductBySlug(filter: string) {
   try {
@@ -29,7 +30,8 @@ export default async function ProductRoute({
   params: { slug: string };
 }) {
   const filter = params.slug;
-  const { data } = await fetchProductBySlug(filter);
+  // TODO: this should be dynamically handled (can be product details or category)
+  const { data } = (await fetchProductBySlug(filter)) as { data: Product[] };
 
   //TODO: CREATE A COMPONENT FOR THIS
   if (data.length === 0) return <div>Not Posts In this category</div>;
@@ -51,7 +53,7 @@ export default async function ProductRoute({
   // },
 
   const product = data[0].attributes;
-  const images = product.images.data as Data[];
+  const images = product.images.data;
 
   const imageUrl = getStrapiMedia(images[0].attributes.url);
 
@@ -111,16 +113,17 @@ export default async function ProductRoute({
             <table className="w-full text-left border-collapse">
               <thead></thead>
               <tbody className="align-baseline">
-                {product.productInfo && Object.entries(product.productInfo)?.map(([k, v]) => (
-                  <tr key={k}>
-                    <td className="py-2 text-slate-500 whitespace-nowrap">
-                      {k}
-                    </td>
-                    <td className="py-2 text-slate-700 whitespace-nowrap">
-                      {v}
-                    </td>
-                  </tr>
-                ))}
+                {product.productInfo &&
+                  Object.entries(product.productInfo)?.map(([k, v]) => (
+                    <tr key={k}>
+                      <td className="py-2 text-slate-500 whitespace-nowrap">
+                        {k}
+                      </td>
+                      <td className="py-2 text-slate-700 whitespace-nowrap">
+                        {v}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
             <div className="sticky bottom-0 h-px -mt-px bg-slate-200 dark:bg-slate-400/20"></div>
