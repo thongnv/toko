@@ -5,7 +5,11 @@ import { usePathname } from "next/navigation";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { HomeOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import Search from "./Search";
 
 interface NavLink {
@@ -24,23 +28,31 @@ function NavLink({ url, text, icon }: NavLink) {
   const path = usePathname();
 
   return (
-    <li className="flex items-center p-4 border-b-2 dark:border-transparent rounded-lg hover:bg-slate-200">
-      {icon === "home" && (
-        <HomeOutlined
-          className={ `flex ${path === url && "text-blue-500" }`}
-          rev={1}
-        />
-      )}
-      {icon === "user" && (
-        <UserOutlined
-          className={ `flex ${path === url && "text-blue-500" }`}
-          rev={1}
-        />
-      )}
+    <li className="flex items-center p-4 cursor-pointer rounded-lg hover:bg-slate-200">
       <Link
         href={url}
-        className={`flex mx-2 ${path === url && "text-blue-500"}`}
+        className={`flex items-center gap-1 mx-2 ${
+          path === url && "text-blue-500"
+        }`}
       >
+        {icon === "home" && (
+          <HomeOutlined
+            className={`flex ${path === url && "text-blue-500"}`}
+            rev={1}
+          />
+        )}
+        {icon === "user" && (
+          <UserOutlined
+            className={`flex ${path === url && "text-blue-500"}`}
+            rev={1}
+          />
+        )}
+        {icon === "cart" && (
+          <ShoppingCartOutlined
+            className="flex text-blue-500 text-2xl"
+            rev={1}
+          />
+        )}
         {text}
       </Link>
     </li>
@@ -88,7 +100,7 @@ export default function Navbar({
         </Logo>
 
         <div className="items-center flex-shrink-0 hidden lg:flex">
-            <Search />
+          <Search />
         </div>
 
         <div className="items-center flex-shrink-0 lg:flex">
