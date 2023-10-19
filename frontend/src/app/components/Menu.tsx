@@ -8,6 +8,7 @@ import { getStrapiMedia } from "../utils/api-helpers";
 import { Category } from "../page";
 
 interface NavLink {
+  categoryId: string;
   name: string;
   slug: string;
   icon: any;
@@ -17,13 +18,13 @@ interface MobileNavLink extends NavLink {
   closeMenu: () => void;
 }
 
-function NavLink({ slug, name, icon }: NavLink) {
+function NavLink({ slug, categoryId, name, icon }: NavLink) {
   const imageUrl = getStrapiMedia(icon.data?.attributes.url);
   return (
     <li className="flex items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-100 group">
       {imageUrl && <Image src={imageUrl} alt="logo" width={35} height={35} />}
       <Link
-        href={slug}
+        href={slug + "/" + categoryId}
         className="flex mx-2"
       >
         {name}

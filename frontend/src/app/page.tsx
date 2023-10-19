@@ -24,6 +24,7 @@ async function fetchSideMenuData() {
 export interface Category {
   id: number;
   attributes: {
+    categoryId: string;
     name: string;
     slug: string;
     icon: any;

@@ -6,16 +6,17 @@ import { currencyFormat } from "@/app/utils/product.helper";
 import Image from "next/image";
 
 
-async function fetchCategoryBySlug(filter: string) {
+async function fetchProductsByCategory(category: string) {
   try {
     const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
-    const path = `/categories`;
+    const path = `/products`;
     const urlParamsObject = {
-      sort: { createdAt: "desc" },
       filters: {
-        url: filter,
+        category: {
+          categoryId: category
+        }
       },
-      populate: ["images"],
+      populate: "*",
     };
     const options = { headers: { Authorization: `Bearer ${token}` } };
     const responseData = await fetchAPI(path, urlParamsObject, options);
@@ -32,10 +33,10 @@ export default async function ProductRoute({
 }) {
   const filter = params.slug;
   // TODO: this should be dynamically handled (can be product details or category)
-  const { data } = (await fetchCategoryBySlug(filter)) as { data: Product[] };
+  const { data } = (await fetchProductsByCategory(filter)) as { data: Product[] };
 
   //TODO: CREATE A COMPONENT FOR THIS
-  if (data.length === 0) return <div>Not Posts In this category</div>;
+  if (data.length === 0) return <div>hummmmm....try...again....</div>;
 
   //   "id": 1,
   //   "attributes": {
