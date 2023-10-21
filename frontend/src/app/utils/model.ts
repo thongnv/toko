@@ -7,6 +7,7 @@ export interface Attribute {
 	url: string;
 	alternativeText?: any;
 	caption?: any;
+	name?: string;
 	width: number;
 	height: number;
 }

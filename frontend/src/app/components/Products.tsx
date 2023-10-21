@@ -39,6 +39,7 @@ export interface Product {
         };
       };
     };
+    category: {data: Data}
   };
 }
 

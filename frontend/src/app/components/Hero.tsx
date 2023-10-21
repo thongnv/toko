@@ -51,7 +51,7 @@ export default function Home({ data }: HeroProps) {
             color="dark:text-violet-400"
           />
         )}
-        <section className="">
+        <section>
           <div className="my-6 flex gap-4">
             <Products products={products} />
           </div>
