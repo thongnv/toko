@@ -28,10 +28,10 @@ function NavLink({ url, text, icon }: NavLink) {
   const path = usePathname();
 
   return (
-    <li className="flex items-center p-4 cursor-pointer rounded-lg hover:bg-slate-200">
+    <li className="flex items-center cursor-pointer rounded-lg hover:bg-slate-200">
       <Link
         href={url}
-        className={`flex items-center gap-1 mx-2 ${
+        className={`flex items-center gap-1 mx-2 text-slate-500 ${
           path === url && "text-blue-500"
         }`}
       >
@@ -48,12 +48,17 @@ function NavLink({ url, text, icon }: NavLink) {
           />
         )}
         {icon === "cart" && (
-          <ShoppingCartOutlined
-            className="flex text-blue-500 text-2xl"
-            rev={1}
-          />
+          <div className="relative">
+            <ShoppingCartOutlined
+              className="flex text-blue-500 text-2xl"
+              rev={1}
+            />
+            <span className="text-white bg-red-400 h-4 inline-block text-xs font-bold absolute -top-2 -right-2 px-1 rounded-lg">
+              0
+            </span>
+          </div>
         )}
-        {text}
+        <span className="text-sm">{text}</span>
       </Link>
     </li>
   );
