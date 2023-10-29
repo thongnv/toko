@@ -25,7 +25,7 @@ async function fetchProductBySlug(filter: string) {
   }
 }
 
-export default async function ProductRoute({
+export default async function PaymentRoute({
   params,
 }: {
   params: { slug: string };
@@ -73,3 +73,5 @@ export default async function ProductRoute({
 export async function generateStaticParams() {
   return [];
 }
+
+PaymentRoute.getLayout = (page: any) => page

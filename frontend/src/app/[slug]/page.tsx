@@ -142,9 +142,12 @@ export default async function ProductRoute({
         <div className="text-sm font-bold mb-4">Tạm tính</div>
         <div className="text-2xl pb-4">{price}</div>
         <div className="flex flex-col gap-2 w-full">
-          <button className="border rounded py-2 bg-red-500 text-white font-extralight">
+          <a
+            href="/checkout/payment"
+            className="border text-center rounded py-2 bg-red-500 text-white font-extralight"
+          >
             Mua ngay
-          </button>
+          </a>
           <button className="border border-blue-600 rounded py-2 text-blue-600 font-light">
             Thêm vào giỏ
           </button>
