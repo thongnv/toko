@@ -37,13 +37,15 @@ function NavLink({ url, text, icon }: NavLink) {
       >
         {icon === "home" && (
           <HomeOutlined
-            className={`flex ${path === url && "text-blue-500"}`}
+            className={`flex text-xl font-bold ${
+              path === url && "text-blue-500"
+            }`}
             rev={1}
           />
         )}
         {icon === "user" && (
           <UserOutlined
-            className={`flex ${path === url && "text-blue-500"}`}
+            className={`flex text-xl ${path === url && "text-blue-500"}`}
             rev={1}
           />
         )}
@@ -58,7 +60,9 @@ function NavLink({ url, text, icon }: NavLink) {
             </span>
           </div>
         )}
-        <span className="text-sm">{text}</span>
+        <span className={`text-sm ${path === url && "text-blue-500"}`}>
+          {text}
+        </span>
       </Link>
     </li>
   );
