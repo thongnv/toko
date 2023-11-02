@@ -13,14 +13,6 @@ interface FooterLink {
   social?: string;
 }
 
-interface CategoryLink {
-  id: string;
-  attributes: {
-    name: string;
-    slug: string;
-  };
-}
-
 function FooterLink({ url, text }: FooterLink) {
   const path = usePathname();
   return (
@@ -32,19 +24,6 @@ function FooterLink({ url, text }: FooterLink) {
         }}`}
       >
         {text}
-      </Link>
-    </li>
-  );
-}
-
-function CategoryLink({ attributes }: CategoryLink) {
-  return (
-    <li className="flex">
-      <Link
-        href={`/blog/${attributes.slug}`}
-        className="hover:dark:text-violet-400"
-      >
-        {attributes.name}
       </Link>
     </li>
   );
@@ -66,18 +45,8 @@ function RenderSocialIcon({ social }: { social: string | undefined }) {
 }
 
 export default function Footer({
-  logoUrl,
-  logoText,
-  menuLinks,
-  categoryLinks,
-  legalLinks,
   socialLinks,
 }: {
-  logoUrl: string | null;
-  logoText: string | null;
-  menuLinks: Array<FooterLink>;
-  categoryLinks: Array<CategoryLink>;
-  legalLinks: Array<FooterLink>;
   socialLinks: Array<FooterLink>;
 }) {
   return (
