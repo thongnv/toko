@@ -47,7 +47,7 @@ function NavLinks() {
           </span>
         </Link>
       </li>
-      <li className="flex items-center cursor-pointer rounded-lg hover:bg-slate-200">
+      <li className="flex items-center cursor-pointer rounded-lg hover:bg-slate-200 relative">
         <Link
           href="/profile"
           className={`flex items-center gap-1 mx-2 text-slate-500 ${
@@ -62,6 +62,17 @@ function NavLinks() {
             Tài khoản
           </span>
         </Link>
+        <div className="absolute bg-white top-10 right-4 whitespace-nowrap shadow-lg rounded-lg border py-2 text-sm w-48">
+          <ul>
+            <li className="p-2 hover:bg-slate-300 cursor-pointer">
+              Thông tin tài khoản
+            </li>
+            <li className="p-2 hover:bg-slate-300 cursor-pointer">
+              Đơn hàng của tôi
+            </li>
+            <li className="p-2 hover:bg-slate-300 cursor-pointer">Đăng xuất</li>
+          </ul>
+        </div>
       </li>
       <li className="flex items-center cursor-pointer rounded-lg hover:bg-slate-200">
         <Link
