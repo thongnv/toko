@@ -24,32 +24,52 @@ interface MobileNavLink extends NavLink {
   closeMenu: () => void;
 }
 
-function NavLink({ url, text, icon }: NavLink) {
+function NavLinks() {
   const path = usePathname();
 
   return (
-    <li className="flex items-center cursor-pointer rounded-lg hover:bg-slate-200">
-      <Link
-        href={url}
-        className={`flex items-center gap-1 mx-2 text-slate-500 ${
-          path === url && "text-blue-500"
-        }`}
-      >
-        {icon === "home" && (
+    <ul className="items-stretch hidden h-10 space-x-3 lg:flex">
+      <li className="flex items-center cursor-pointer rounded-lg hover:bg-slate-200">
+        <Link
+          href="/"
+          className={`flex items-center gap-1 mx-2 text-slate-500 ${
+            path === "/" && "text-blue-500"
+          }`}
+        >
           <HomeOutlined
             className={`flex text-xl font-bold ${
-              path === url && "text-blue-500"
+              path === "/" && "text-blue-500"
             }`}
             rev={1}
           />
-        )}
-        {icon === "user" && (
+          <span className={`text-sm ${path === "/" && "text-blue-500"}`}>
+            Trang chủ
+          </span>
+        </Link>
+      </li>
+      <li className="flex items-center cursor-pointer rounded-lg hover:bg-slate-200">
+        <Link
+          href="/profile"
+          className={`flex items-center gap-1 mx-2 text-slate-500 ${
+            path === "/profile" && "text-blue-500"
+          }`}
+        >
           <UserOutlined
-            className={`flex text-xl ${path === url && "text-blue-500"}`}
+            className={`flex text-xl ${path === "/profile" && "text-blue-500"}`}
             rev={1}
           />
-        )}
-        {icon === "cart" && (
+          <span className={`text-sm ${path === "/profile" && "text-blue-500"}`}>
+            Tài khoản
+          </span>
+        </Link>
+      </li>
+      <li className="flex items-center cursor-pointer rounded-lg hover:bg-slate-200">
+        <Link
+          href="/checkout/cart"
+          className={`flex items-center gap-1 mx-2 text-slate-500 ${
+            path === "/checkout/cart" && "text-blue-500"
+          }`}
+        >
           <div className="relative">
             <ShoppingCartOutlined
               className="flex text-blue-500 text-2xl"
@@ -59,12 +79,9 @@ function NavLink({ url, text, icon }: NavLink) {
               0
             </span>
           </div>
-        )}
-        <span className={`text-sm ${path === url && "text-blue-500"}`}>
-          {text}
-        </span>
-      </Link>
-    </li>
+        </Link>
+      </li>
+    </ul>
   );
 }
 
@@ -89,7 +106,6 @@ function MobileNavLink({ url, text, closeMenu }: MobileNavLink) {
 }
 
 export default function Navbar({
-  links,
   logoUrl,
   logoText,
 }: {
@@ -113,11 +129,7 @@ export default function Navbar({
         </div>
 
         <div className="items-center flex-shrink-0 lg:flex">
-          <ul className="items-stretch hidden h-10 space-x-3 lg:flex">
-            {links.map((item: NavLink) => (
-              <NavLink key={item.id} {...item} />
-            ))}
-          </ul>
+          <NavLinks />
         </div>
 
         <Dialog
@@ -145,13 +157,13 @@ export default function Navbar({
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-200/10">
                 <div className="space-y-2 py-6">
-                  {links.map((item) => (
+                  {/* {links.map((item) => (
                     <MobileNavLink
                       key={item.id}
                       closeMenu={closeMenu}
                       {...item}
                     />
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>
