@@ -41,6 +41,7 @@ export interface Product {
     };
     category: {data: Data}
   };
+  quantity?: number
 }
 
 function ProductCard({ id, attributes }: Product) {
