@@ -85,14 +85,7 @@ export default async function DefaultLayout({
 
           <Banner data={notificationBanner} />
 
-          <Footer
-            logoUrl={footerLogoUrl}
-            logoText={footer.footerLogo.logoText}
-            menuLinks={footer.menuLinks}
-            categoryLinks={footer.categories.data}
-            legalLinks={footer.legalLinks}
-            socialLinks={footer.socialLinks}
-          />
+          <Footer socialLinks={footer.socialLinks} />
         </body>
       </html>
     </>
