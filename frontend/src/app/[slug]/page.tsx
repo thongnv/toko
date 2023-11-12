@@ -1,9 +1,12 @@
+"use client";
+
 import { fetchAPI } from "@/app/utils/fetch-api";
 import Image from "next/image";
 import { getStrapiMedia } from "../utils/api-helpers";
 import { Data } from "../utils/model";
 import { currencyFormat } from "../utils/product.helper";
 import { Product } from "../components/Products";
+import { useCartStore } from "../store/useCartStore";
 
 async function fetchProductBySlug(filter: string) {
   try {
@@ -31,6 +34,7 @@ export default async function ProductRoute({
 }) {
   const filter = params.slug;
   // TODO: this should be dynamically handled (can be product details or category)
+  const addToCart = useCartStore((state) => state.addToCart);
   const { data } = (await fetchProductBySlug(filter)) as { data: Product[] };
 
   //TODO: CREATE A COMPONENT FOR THIS
@@ -52,12 +56,13 @@ export default async function ProductRoute({
   //   }
   // },
 
-  const product = data[0].attributes;
-  const images = product.images.data;
+  const product: Product = data[0];
+  const images = product.attributes.images.data;
 
   const imageUrl = getStrapiMedia(images[0].attributes.url);
 
-  const price = currencyFormat(product.price);
+  const price = currencyFormat(product.attributes.price);
+
   return (
     <div className="flex flex-wrap lg:flex-nowrap gap-3 lg:ml-4 lg:mx-4 mt-4">
       {/* left */}
@@ -78,7 +83,10 @@ export default async function ProductRoute({
               const url = getStrapiMedia(image.attributes.url);
               return (
                 url && (
-                  <div className="border rounded-sm overflow-hidden cursor-pointer p-1">
+                  <div
+                    key={image.id}
+                    className="border rounded-sm overflow-hidden cursor-pointer p-1"
+                  >
                     <Image src={url} alt="icon-search" width={47} height={47} />
                   </div>
                 )
@@ -90,7 +98,7 @@ export default async function ProductRoute({
       {/* content */}
       <div className="h-full grow md:flex md:flex-col gap-4">
         <div className="bg-white p-4 rounded-lg">
-          <div className="text-xl">{product.name}</div>
+          <div className="text-xl">{product.attributes.name}</div>
           <div className="text-2xl pb-4">{price}</div>
           <div className="text-sm font-bold">Màu</div>
           <div className="flex gap-2 my-3">
@@ -113,17 +121,19 @@ export default async function ProductRoute({
             <table className="w-full text-left border-collapse">
               <thead></thead>
               <tbody className="align-baseline">
-                {product.productInfo &&
-                  Object.entries(product.productInfo)?.map(([k, v]) => (
-                    <tr key={k}>
-                      <td className="py-2 text-slate-500 whitespace-nowrap">
-                        {k}
-                      </td>
-                      <td className="py-2 text-slate-700 whitespace-nowrap">
-                        {v}
-                      </td>
-                    </tr>
-                  ))}
+                {product.attributes.productInfo &&
+                  Object.entries(product.attributes.productInfo)?.map(
+                    ([k, v]) => (
+                      <tr key={k}>
+                        <td className="py-2 text-slate-500 whitespace-nowrap">
+                          {k}
+                        </td>
+                        <td className="py-2 text-slate-700 whitespace-nowrap">
+                          {v}
+                        </td>
+                      </tr>
+                    )
+                  )}
               </tbody>
             </table>
             <div className="sticky bottom-0 h-px -mt-px bg-slate-200 dark:bg-slate-400/20"></div>
@@ -148,7 +158,11 @@ export default async function ProductRoute({
           >
             Mua ngay
           </a>
-          <button className="border border-blue-600 rounded py-2 text-blue-600 font-light">
+          {/* TODO: add item to cart */}
+          <button
+            className="border border-blue-600 rounded py-2 text-blue-600 font-light"
+            onClick={() => addToCart(product)}
+          >
             Thêm vào giỏ
           </button>
         </div>

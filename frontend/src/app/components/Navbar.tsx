@@ -11,6 +11,8 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import Search from "./Search";
+import { useCartStore } from "../store/useCartStore";
+import useFromStore from "../hooks/useFromStore";
 
 interface NavLink {
   id: number;
@@ -28,6 +30,7 @@ function NavLinks() {
   const path = usePathname();
 
   const [displayProfileMenu, setDisplayProfileMenu] = useState(false);
+  const totalItems = useFromStore(useCartStore, (state) => state.totalItems);
 
   return (
     <ul className="items-stretch hidden h-10 space-x-3 lg:flex">
@@ -97,7 +100,7 @@ function NavLinks() {
               rev={1}
             />
             <span className="text-white bg-red-400 h-4 inline-block text-xs font-bold absolute -top-2 -right-2 px-1 rounded-lg">
-              0
+              {totalItems}
             </span>
           </div>
         </Link>
