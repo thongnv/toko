@@ -7,13 +7,13 @@ import { Data } from "../utils/model";
 import { currencyFormat } from "../utils/product.helper";
 import { Product } from "../components/Products";
 import { useCartStore } from "../store/useCartStore";
+import { useEffect, useState } from "react";
 
 async function fetchProductBySlug(filter: string) {
   try {
     const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
     const path = `/products`;
     const urlParamsObject = {
-      sort: { createdAt: "desc" },
       filters: {
         url: filter,
       },
@@ -27,79 +27,71 @@ async function fetchProductBySlug(filter: string) {
   }
 }
 
-export default async function ProductRoute({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default function ProductRoute({ params }: { params: { slug: string } }) {
   const filter = params.slug;
   // TODO: this should be dynamically handled (can be product details or category)
   const addToCart = useCartStore((state) => state.addToCart);
-  const { data } = (await fetchProductBySlug(filter)) as { data: Product[] };
+  // const { data } = (await fetchProductBySlug(filter)) as { data: Product[] };
+  const [product, setProduct] = useState<Product>();
 
-  //TODO: CREATE A COMPONENT FOR THIS
-  if (data.length === 0) return <div>Not Posts In this category</div>;
+  useEffect(() => {
+    fetchProductBySlug(filter).then((res) => {
+      setProduct(res.data[0]);
+    });
+  }, []);
 
-  //   "id": 1,
-  //   "attributes": {
-  //     "name": "Apple iPhone 12",
-  //     "description": null,
-  //     "createdAt": "2023-09-30T16:09:09.782Z",
-  //     "updatedAt": "2023-10-02T15:28:06.078Z",
-  //     "publishedAt": "2023-09-30T16:09:59.858Z",
-  //     "url": "apple-i-phone-12",
-  //     "price": 14650000,
-  //     "productInfo": {
-  //       "Thương hiệu": "Apple",
-  //       "Loại/ Công nghệ màn hình": "Super Retina XDR"
-  //     }
-  //   }
-  // },
+  const images = (product: Product | undefined) =>
+    product ? product.attributes.images.data : [];
 
-  const product: Product = data[0];
-  const images = product.attributes.images.data;
+  const imageUrl = (image: Data) =>
+    image ? getStrapiMedia(image.attributes.url) : "";
 
-  const imageUrl = getStrapiMedia(images[0].attributes.url);
-
-  const price = currencyFormat(product.attributes.price);
+  const price = (product: Product | undefined) =>
+    product ? currencyFormat(product.attributes.price) : null;
 
   return (
     <div className="flex flex-wrap lg:flex-nowrap gap-3 lg:ml-4 lg:mx-4 mt-4">
       {/* left */}
       <div className="lg:sticky w-full lg:w-96 top-4 h-full bg-white rounded-lg">
-        <div className="flex flex-col gap-2 items-center p-4">
-          <div className="border rounded-lg overflow-hidden cursor-pointer">
-            {imageUrl && (
+        {images(product)?.length && (
+          <div className="flex flex-col gap-2 items-center p-4">
+            <div className="border rounded-lg overflow-hidden cursor-pointer">
               <Image
-                src={imageUrl}
+                priority={true}
+                src={imageUrl(images(product)[0])}
                 alt="icon-search"
                 width={368}
                 height={368}
               />
-            )}
+            </div>
+            <div className="flex gap-2 justify-center w-full">
+              {images(product).map((image: Data) => {
+                return (
+                  image && (
+                    <div
+                      key={image.id}
+                      className="border rounded-sm overflow-hidden cursor-pointer p-1"
+                    >
+                      <Image
+                        priority={true}
+                        src={imageUrl(image)}
+                        alt="icon-search"
+                        width={47}
+                        height={47}
+                      />
+                    </div>
+                  )
+                );
+              })}
+            </div>
           </div>
-          <div className="flex gap-2 justify-center w-full">
-            {images.map((image: Data) => {
-              const url = getStrapiMedia(image.attributes.url);
-              return (
-                url && (
-                  <div
-                    key={image.id}
-                    className="border rounded-sm overflow-hidden cursor-pointer p-1"
-                  >
-                    <Image src={url} alt="icon-search" width={47} height={47} />
-                  </div>
-                )
-              );
-            })}
-          </div>
-        </div>
+        )}
       </div>
       {/* content */}
       <div className="h-full grow md:flex md:flex-col gap-4">
         <div className="bg-white p-4 rounded-lg">
-          <div className="text-xl">{product.attributes.name}</div>
-          <div className="text-2xl pb-4">{price}</div>
+          <div className="text-xl">{product?.attributes.name}</div>
+          <div className="text-2xl pb-4">{price(product)}</div>
           <div className="text-sm font-bold">Màu</div>
           <div className="flex gap-2 my-3">
             <button className="border border-blue-600 rounded-lg px-2">
@@ -121,7 +113,7 @@ export default async function ProductRoute({
             <table className="w-full text-left border-collapse">
               <thead></thead>
               <tbody className="align-baseline">
-                {product.attributes.productInfo &&
+                {product?.attributes.productInfo &&
                   Object.entries(product.attributes.productInfo)?.map(
                     ([k, v]) => (
                       <tr key={k}>
@@ -132,7 +124,7 @@ export default async function ProductRoute({
                           {v}
                         </td>
                       </tr>
-                    )
+                    ),
                   )}
               </tbody>
             </table>
@@ -150,7 +142,7 @@ export default async function ProductRoute({
           <button className="border rounded-lg px-3 py-1">+</button>
         </div>
         <div className="text-sm font-bold mb-4">Tạm tính</div>
-        <div className="text-2xl pb-4">{price}</div>
+        {product && <div className="text-2xl pb-4">{price(product)}</div>}
         <div className="flex flex-col gap-2 w-full">
           <a
             href="/checkout/payment"
@@ -158,13 +150,15 @@ export default async function ProductRoute({
           >
             Mua ngay
           </a>
-          {/* TODO: add item to cart */}
-          <button
-            className="border border-blue-600 rounded py-2 text-blue-600 font-light"
-            onClick={() => addToCart(product)}
-          >
-            Thêm vào giỏ
-          </button>
+          {/* add item to cart */}
+          {product && (
+            <button
+              className="border border-blue-600 rounded py-2 text-blue-600 font-light"
+              onClick={() => addToCart({ ...product })}
+            >
+              Thêm vào giỏ
+            </button>
+          )}
         </div>
       </div>
     </div>
