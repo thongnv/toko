@@ -10,11 +10,7 @@
   "attributes": {
     "type": {
       "type": "enumeration",
-      "enum": [
-        "alert",
-        "info",
-        "warning"
-      ],
+      "enum": ["alert", "info", "warning"],
       "required": true
     },
     "heading": {

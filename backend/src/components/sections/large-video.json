@@ -14,17 +14,13 @@
       "type": "string"
     },
     "video": {
-      "allowedTypes": [
-        "videos"
-      ],
+      "allowedTypes": ["videos"],
       "type": "media",
       "multiple": false,
       "required": true
     },
     "poster": {
-      "allowedTypes": [
-        "images"
-      ],
+      "allowedTypes": ["images"],
       "type": "media",
       "multiple": false,
       "required": false

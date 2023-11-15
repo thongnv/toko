@@ -73,7 +73,7 @@ https://github.com/strapi/nextjs-corporate-starter/assets/6153188/80f00bf5-d17b-
 
 ## Setting Up The Frontend
 
-Next we need to switch to our `/frontend` directory and create our `.env` file and paste in the following. 
+Next we need to switch to our `/frontend` directory and create our `.env` file and paste in the following.
 
 ```bash
 NEXT_PUBLIC_STRAPI_API_TOKEN=your-api-token
@@ -300,8 +300,9 @@ yarn repo:upstream
 ## FAQ
 
 ### How do I add additional pages?
-Check out [this video](https://youtu.be/EoVrTNA3geM) where I will guide on how to do this. 
+
+Check out [this video](https://youtu.be/EoVrTNA3geM) where I will guide on how to do this.
 
 ### How do I update my Strapi version?
-Check out this [this issue comment](https://github.com/strapi/nextjs-corporate-starter/issues/17#issuecomment-1558149967)
 
+Check out this [this issue comment](https://github.com/strapi/nextjs-corporate-starter/issues/17#issuecomment-1558149967)
