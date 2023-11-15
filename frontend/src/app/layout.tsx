@@ -62,11 +62,11 @@ export default async function DefaultLayout({
   const { notificationBanner, navbar, footer } = global.data.attributes;
 
   const navbarLogoUrl = getStrapiMedia(
-    navbar.navbarLogo.logoImg.data.attributes.url
+    navbar.navbarLogo.logoImg.data.attributes.url,
   );
 
   const footerLogoUrl = getStrapiMedia(
-    footer.footerLogo.logoImg.data.attributes.url
+    footer.footerLogo.logoImg.data.attributes.url,
   );
 
   return (

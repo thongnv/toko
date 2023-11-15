@@ -5,7 +5,6 @@ import { Data } from "@/app/utils/model";
 import { currencyFormat } from "@/app/utils/product.helper";
 import Image from "next/image";
 
-
 async function fetchProductBySlug(filter: string) {
   try {
     const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
@@ -62,9 +61,7 @@ export default async function PaymentRoute({
   return (
     <div className="py-2 bg-white">
       <div className="container flex justify-between h-16 mx-auto px-0 sm:px-6">
-        <div className="items-center flex-shrink-0 lg:flex">
-          Thanh toán
-        </div>
+        <div className="items-center flex-shrink-0 lg:flex">Thanh toán</div>
       </div>
     </div>
   );
@@ -74,4 +71,4 @@ export async function generateStaticParams() {
   return [];
 }
 
-PaymentRoute.getLayout = (page: any) => page
+PaymentRoute.getLayout = (page: any) => page;

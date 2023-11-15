@@ -22,11 +22,16 @@ function NavLink({ slug, categoryId, name, icon }: NavLink) {
   const imageUrl = getStrapiMedia(icon.data?.attributes.url);
   return (
     <li className="flex items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-100 group">
-      {imageUrl && <Image src={imageUrl} alt="logo" width={35} height={35} />}
-      <Link
-        href={slug + "/" + categoryId}
-        className="flex mx-2"
-      >
+      {imageUrl && (
+        <Image
+          priority={true}
+          src={imageUrl}
+          alt="logo"
+          width={35}
+          height={35}
+        />
+      )}
+      <Link href={slug + "/" + categoryId} className="flex mx-2">
         {name}
       </Link>
     </li>
@@ -65,7 +70,7 @@ export default function Menu({ links }: { links: Array<Category> }) {
     >
       <div className="sticky top-6 z-40 p-2 overflow-y-auto bg-white rounded-lg text-sm">
         <ul className="font-small">
-        <h3 className="p-2">Danh mục</h3>
+          <h3 className="p-2">Danh mục</h3>
           {links.map((item: Category) => (
             <NavLink key={item.id} {...item.attributes} />
           ))}

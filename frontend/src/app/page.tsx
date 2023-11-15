@@ -11,7 +11,7 @@ async function fetchSideMenuData() {
     const categoriesResponse = await fetchAPI(
       "/categories",
       { populate: "*" },
-      options
+      options,
     );
 
     return {
@@ -48,7 +48,7 @@ export default async function RootRoute() {
       <Menu links={categories} />
       <section className="block mt-6 mr-2 w-full">
         {contentSections.map((section: any, index: number) =>
-          sectionRenderer(section, index)
+          sectionRenderer(section, index),
         )}
       </section>
     </div>

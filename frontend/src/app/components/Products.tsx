@@ -6,21 +6,21 @@ interface ProductsProps {
   products: Product[];
 }
 
-  //   "id": 1,
-  //   "attributes": {
-  //     "name": "Apple iPhone 12",
-  //     "description": null,
-  //     "createdAt": "2023-09-30T16:09:09.782Z",
-  //     "updatedAt": "2023-10-02T15:28:06.078Z",
-  //     "publishedAt": "2023-09-30T16:09:59.858Z",
-  //     "url": "apple-i-phone-12",
-  //     "price": 14650000,
-  //     "productInfo": {
-  //       "Thương hiệu": "Apple",
-  //       "Loại/ Công nghệ màn hình": "Super Retina XDR"
-  //     }
-  //   }
-  // },
+//   "id": 1,
+//   "attributes": {
+//     "name": "Apple iPhone 12",
+//     "description": null,
+//     "createdAt": "2023-09-30T16:09:09.782Z",
+//     "updatedAt": "2023-10-02T15:28:06.078Z",
+//     "publishedAt": "2023-09-30T16:09:59.858Z",
+//     "url": "apple-i-phone-12",
+//     "price": 14650000,
+//     "productInfo": {
+//       "Thương hiệu": "Apple",
+//       "Loại/ Công nghệ màn hình": "Super Retina XDR"
+//     }
+//   }
+// },
 
 export interface Product {
   id: number;
@@ -31,7 +31,7 @@ export interface Product {
     productInfo: Record<string, string>;
     images: {
       data: Data[];
-    }
+    };
     cover: {
       data: {
         attributes: {
@@ -39,9 +39,9 @@ export interface Product {
         };
       };
     };
-    category: {data: Data}
+    category: { data: Data };
   };
-  quantity?: number
+  quantity?: number;
 }
 
 function ProductCard({ id, attributes }: Product) {
