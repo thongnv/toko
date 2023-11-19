@@ -65,29 +65,23 @@ export default async function DefaultLayout({
     navbar.navbarLogo.logoImg.data.attributes.url,
   );
 
-  const footerLogoUrl = getStrapiMedia(
-    footer.footerLogo.logoImg.data.attributes.url,
-  );
-
   return (
-    <>
-      <html>
-        <body className="bg-gray-100">
-          <Navbar
-            links={navbar.links}
-            logoUrl={navbarLogoUrl}
-            logoText={navbar.navbarLogo.logoText}
-          />
+    <html>
+      <body className="bg-gray-100">
+        <Navbar
+          links={navbar.links}
+          logoUrl={navbarLogoUrl}
+          logoText={navbar.navbarLogo.logoText}
+        />
 
-          <main className="container min-h-screen mx-auto h-full">
-            {children}
-          </main>
+        <main className="container min-h-screen mx-auto h-full">
+          {children}
+        </main>
 
-          <Banner data={notificationBanner} />
+        <Banner data={notificationBanner} />
 
-          <Footer socialLinks={footer.socialLinks} />
-        </body>
-      </html>
-    </>
+        <Footer socialLinks={footer.socialLinks} />
+      </body>
+    </html>
   );
 }

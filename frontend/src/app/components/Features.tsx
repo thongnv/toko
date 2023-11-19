@@ -62,8 +62,8 @@ export default function Features({ data }: FeaturesProps) {
         )}
         <section className="">
           <div className="my-6 flex gap-4">
-            {data.products.data.map((product: Product, index: number) => (
-              <Feature key={index} {...product} />
+            {data.products.data.map((product: Product) => (
+              <Feature key={product.id} {...product} />
             ))}
           </div>
         </section>

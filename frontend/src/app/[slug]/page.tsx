@@ -53,7 +53,7 @@ export default function ProductRoute({ params }: { params: { slug: string } }) {
     <div className="flex flex-wrap lg:flex-nowrap gap-3 lg:ml-4 lg:mx-4 mt-4">
       {/* left */}
       <div className="lg:sticky w-full lg:w-96 top-4 h-full bg-white rounded-lg">
-        {images(product)?.length && (
+        {images(product)?.length > 0 && (
           <div className="flex flex-col gap-2 items-center p-4">
             <div className="border rounded-lg overflow-hidden cursor-pointer">
               <Image
