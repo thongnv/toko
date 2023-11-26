@@ -29,9 +29,7 @@ async function fetchProductBySlug(filter: string) {
 
 export default function ProductRoute({ params }: { params: { slug: string } }) {
   const filter = params.slug;
-  // TODO: this should be dynamically handled (can be product details or category)
   const addToCart = useCartStore((state) => state.addToCart);
-  // const { data } = (await fetchProductBySlug(filter)) as { data: Product[] };
   const [product, setProduct] = useState<Product>();
 
   useEffect(() => {
