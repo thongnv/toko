@@ -36,33 +36,42 @@ export default async function ProductRoute() {
             </span>
           </div>
           {cart?.map((product) => (
-          <div key={product.id} className="bg-white p-4 rounded-lg grid grid-cols-6 grid-flow-col gap-4">
-            <div className="flex gap-2 col-span-2">
-              <div className="flex gap-2">
-                <input className="cursor-pointer" type="checkbox" />
-                <div>{product.attributes.name}</div>
+            <div
+              key={product.id}
+              className="bg-white p-4 rounded-lg grid grid-cols-6 grid-flow-col gap-4 align-center"
+            >
+              <div className="flex gap-2 align-center col-span-2">
+                  <input className="cursor-pointer leading-5" type="checkbox" />
+                  <div>{product.attributes.name}</div>
               </div>
+              <div>{currencyFormat(product.attributes.price)}</div>
+              <div className="flex gap-1">
+                <button className="border rounded-lg px-3 py-1">-</button>
+                <button className="border rounded-lg px-4 py-1">
+                  {product.quantity}
+                </button>
+                <button className="border rounded-lg px-3 py-1">+</button>
+              </div>
+              <div>
+                {product.quantity &&
+                  currencyFormat(product.attributes.price * product.quantity)}
+              </div>
+              <span className="text-center">
+                <DeleteOutlined className="cursor-pointer" rev={undefined} />
+              </span>
             </div>
-            <div>{currencyFormat(product.attributes.price)}</div>
-            <div>{product.quantity}</div>
-            <div>{product.quantity && currencyFormat(product.attributes.price * product.quantity)}</div>
-            <span className="text-center">
-              <DeleteOutlined className="cursor-pointer" rev={undefined} />
-            </span>
-          </div>))
-          }
+          ))}
         </div>
 
         {/* cart */}
-        <div className="h-full w-full lg:w-64 lg:block bg-white rounded-lg p-4">
-          <div className="mb-4">Tím, 128GB</div>
-          <div className="text-sm font-bold mb-2">Số Lượng</div>
-          <div className="flex gap-1 mb-4">
-            <button className="border rounded-lg px-3 py-1">-</button>
-            <button className="border rounded-lg px-4 py-1">1</button>
-            <button className="border rounded-lg px-3 py-1">+</button>
+        <div className="h-full w-80 lg:block bg-white rounded-lg p-4">
+          <div className="mb-4">Giao tới</div>
+          <div className="flex gap-2 text-sm font-bold mb-2">
+            <div>James Matcher</div>
+            <div className="border-solid border-l border-violet-200 h-5"></div>
+            <div>0987654321</div>
           </div>
-          <div className="text-sm font-bold mb-4">Tạm tính</div>
+          <div className="text-gray-400">5 Parvis Alan Turing, 75013 París</div>
         </div>
       </section>
     </div>
