@@ -14,6 +14,7 @@ interface State {
 interface Actions {
   addToCart: (Item: Product) => void;
   removeFromCart: (Item: Product) => void;
+  removeOneFromCart: (Item: Product) => void;
 }
 
 const INITIAL_STATE: State = {
@@ -60,6 +61,22 @@ export const useCartStore = create(
           totalPrice: state.totalPrice - product.attributes.price,
         }));
       },
+      removeOneFromCart: (product: Product) => {
+        const cart = get().cart;
+        const cartItem = cart.find((item) => item.id === product.id);
+        if (cartItem) {
+          const updatedCart = cart.map((item) =>
+            item.id === product.id
+              ? { ...item, quantity: (item.quantity as number) - 1 }
+              : item
+          );
+          set((state) => ({
+            cart: updatedCart,
+            totalItems: state.totalItems - 1,
+            totalPrice: state.totalPrice - product.attributes.price,
+          }));
+        }
+      }
     }),
     {
       name: "cart-storage",

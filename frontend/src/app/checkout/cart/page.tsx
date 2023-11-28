@@ -7,6 +7,9 @@ import { DeleteOutlined } from "@ant-design/icons";
 
 export default async function ProductRoute() {
   const cart = useFromStore(useCartStore, (state) => state.cart);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const removeOneFromCart = useCartStore((state) => state.removeOneFromCart);
 
   let total = 0;
   if (cart) {
@@ -41,23 +44,37 @@ export default async function ProductRoute() {
               className="bg-white p-4 rounded-lg grid grid-cols-6 grid-flow-col gap-4 align-center"
             >
               <div className="flex gap-2 align-center col-span-2">
-                  <input className="cursor-pointer leading-5" type="checkbox" />
-                  <div>{product.attributes.name}</div>
+                <input className="cursor-pointer leading-5" type="checkbox" />
+                <div>{product.attributes.name}</div>
               </div>
               <div>{currencyFormat(product.attributes.price)}</div>
               <div className="flex gap-1">
-                <button className="border rounded-lg px-3 py-1">-</button>
+                <button
+                  className="border rounded-lg px-3 py-1"
+                  onClick={() => removeOneFromCart(product)}
+                >
+                  -
+                </button>
                 <button className="border rounded-lg px-4 py-1">
                   {product.quantity}
                 </button>
-                <button className="border rounded-lg px-3 py-1">+</button>
+                <button
+                  className="border rounded-lg px-3 py-1"
+                  onClick={() => addToCart(product)}
+                >
+                  +
+                </button>
               </div>
               <div>
                 {product.quantity &&
                   currencyFormat(product.attributes.price * product.quantity)}
               </div>
               <span className="text-center">
-                <DeleteOutlined className="cursor-pointer" rev={undefined} />
+                <DeleteOutlined
+                  className="cursor-pointer"
+                  rev={undefined}
+                  onClick={() => removeFromCart(product)}
+                />
               </span>
             </div>
           ))}
