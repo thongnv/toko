@@ -7,18 +7,10 @@ import { DeleteOutlined } from "@ant-design/icons";
 
 export default async function ProductRoute() {
   const cart = useFromStore(useCartStore, (state) => state.cart);
+  const totalPrice = useFromStore(useCartStore, (state) => state.totalPrice);
   const addToCart = useCartStore((state) => state.addToCart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const removeOneFromCart = useCartStore((state) => state.removeOneFromCart);
-
-  let total = 0;
-  if (cart) {
-    total = cart.reduce(
-      (acc, product) =>
-        acc + product.attributes.price * (product.quantity as number),
-      0
-    );
-  }
 
   return (
     <div className="lg:ml-4 lg:mx-4 mt-4">
@@ -81,14 +73,30 @@ export default async function ProductRoute() {
         </div>
 
         {/* cart */}
-        <div className="h-full w-80 lg:block bg-white rounded-lg p-4">
-          <div className="mb-4">Giao tới</div>
-          <div className="flex gap-2 text-sm font-bold mb-2">
-            <div>James Matcher</div>
-            <div className="border-solid border-l border-violet-200 h-5"></div>
-            <div>0987654321</div>
+        <div className="h-full w-80 lg:block">
+          <div className="bg-white rounded-lg p-4 mb-4">
+            <div className="mb-4">Giao tới</div>
+            <div className="flex gap-2 text-sm font-bold mb-2">
+              <div>James Matcher</div>
+              <div className="border-solid border-l border-violet-200 h-5"></div>
+              <div>0987654321</div>
+            </div>
+            <div className="text-gray-400">
+              5 Parvis Alan Turing, 75013 París
+            </div>
           </div>
-          <div className="text-gray-400">5 Parvis Alan Turing, 75013 París</div>
+          <div className="bg-white rounded-lg divide-y">
+            <div className="flex gap-2 text-sm justify-between p-4">
+              <div>Tạm tính</div>
+              <div>{currencyFormat(totalPrice || 0)}</div>
+            </div>
+            <div className="flex gap-2 text-sm justify-between p-4">
+              <div>Tổng tiền</div>
+              <div className="text-red-500 text-xl">
+                {currencyFormat(totalPrice || 0)}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

@@ -55,10 +55,11 @@ export const useCartStore = create(
         }
       },
       removeFromCart: (product: Product) => {
+        const itemCount = (product.quantity || 0);
         set((state) => ({
           cart: state.cart.filter((item) => item.id !== product.id),
-          totalItems: state.totalItems - 1,
-          totalPrice: state.totalPrice - product.attributes.price,
+          totalItems: state.totalItems - itemCount,
+          totalPrice: state.totalPrice - itemCount * product.attributes.price,
         }));
       },
       removeOneFromCart: (product: Product) => {
