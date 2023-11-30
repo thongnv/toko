@@ -4,13 +4,24 @@ import useFromStore from "@/app/hooks/useFromStore";
 import { useCartStore } from "@/app/store/useCartStore";
 import { currencyFormat } from "@/app/utils/product.helper";
 import { DeleteOutlined } from "@ant-design/icons";
+import { useState } from "react";
 
 export default async function ProductRoute() {
   const cart = useFromStore(useCartStore, (state) => state.cart);
-  const totalPrice = useFromStore(useCartStore, (state) => state.totalPrice);
+  // const totalPrice = useFromStore(useCartStore, (state) => state.totalPrice);
   const addToCart = useCartStore((state) => state.addToCart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const removeOneFromCart = useCartStore((state) => state.removeOneFromCart);
+
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const toggleAllItems = (checked: boolean) => {
+    if (cart && checked) {
+      setTotalPrice(cart.reduce((result, product) => result + product.attributes.price, 0))
+    } else {
+      setTotalPrice(0);
+    }
+  }
 
   return (
     <div className="lg:ml-4 lg:mx-4 mt-4">
@@ -20,7 +31,7 @@ export default async function ProductRoute() {
         <div className="h-full grow md:flex md:flex-col gap-4">
           <div className="bg-white p-4 rounded-lg grid grid-cols-6 grid-flow-col gap-4">
             <div className="flex gap-2 col-span-2">
-              <input className="cursor-pointer" type="checkbox" />
+              <input className="cursor-pointer" type="checkbox" onChange={(event) => toggleAllItems(event.target.checked)}/>
               <div>Tất cả</div>
             </div>
             <div>Đơn giá</div>
