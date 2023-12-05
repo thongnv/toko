@@ -1,27 +1,50 @@
 "use client";
 
+import { Product } from "@/app/components/Products";
 import useFromStore from "@/app/hooks/useFromStore";
 import { useCartStore } from "@/app/store/useCartStore";
 import { currencyFormat } from "@/app/utils/product.helper";
 import { DeleteOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default async function ProductRoute() {
   const cart = useFromStore(useCartStore, (state) => state.cart);
-  // const totalPrice = useFromStore(useCartStore, (state) => state.totalPrice);
   const addToCart = useCartStore((state) => state.addToCart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const removeOneFromCart = useCartStore((state) => state.removeOneFromCart);
 
   const [totalPrice, setTotalPrice] = useState(0);
+  const [selectAll, setSelectAll] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (cart) {
+      const selectedProducts = cart.filter((product) => product.selected);
+      setSelectedProducts(selectedProducts);
+      setSelectAll(cart.length === selectedProducts.length);
+    }
+  }, [cart]);
 
   const toggleAllItems = (checked: boolean) => {
+    setSelectAll(!!checked);
+    cart?.forEach((product) => (product.selected = checked));
     if (cart && checked) {
-      setTotalPrice(cart.reduce((result, product) => result + product.attributes.price, 0))
+      setTotalPrice(
+        cart.reduce((result, product) => result + product.attributes.price, 0)
+      );
     } else {
       setTotalPrice(0);
     }
-  }
+  };
+
+  const handleClickItem = (product: Product, checked: boolean) => {
+    product.selected = checked;
+    const products = checked
+      ? [...selectedProducts, product]
+      : selectedProducts.filter((p) => p.id !== product.id);
+    setSelectedProducts(products);
+    setSelectAll(cart?.length === products.length);
+  };
 
   return (
     <div className="lg:ml-4 lg:mx-4 mt-4">
@@ -31,7 +54,12 @@ export default async function ProductRoute() {
         <div className="h-full grow md:flex md:flex-col gap-4">
           <div className="bg-white p-4 rounded-lg grid grid-cols-6 grid-flow-col gap-4">
             <div className="flex gap-2 col-span-2">
-              <input className="cursor-pointer" type="checkbox" onChange={(event) => toggleAllItems(event.target.checked)}/>
+              <input
+                className="cursor-pointer"
+                type="checkbox"
+                checked={selectAll}
+                onChange={(event) => toggleAllItems(event.target.checked)}
+              />
               <div>Tất cả</div>
             </div>
             <div>Đơn giá</div>
@@ -47,7 +75,14 @@ export default async function ProductRoute() {
               className="bg-white p-4 rounded-lg grid grid-cols-6 grid-flow-col gap-4 align-center"
             >
               <div className="flex gap-2 align-center col-span-2">
-                <input className="cursor-pointer leading-5" type="checkbox" />
+                <input
+                  className="cursor-pointer leading-5"
+                  type="checkbox"
+                  checked={!!product.selected}
+                  onChange={(event) =>
+                    handleClickItem(product, event.target.checked)
+                  }
+                />
                 <div>{product.attributes.name}</div>
               </div>
               <div>{currencyFormat(product.attributes.price)}</div>

@@ -42,6 +42,7 @@ export interface Product {
     category: { data: Data };
   };
   quantity?: number;
+  selected?: boolean;
 }
 
 function ProductCard({ id, attributes }: Product) {
