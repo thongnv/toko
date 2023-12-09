@@ -41,11 +41,9 @@ export interface Product {
     };
     category: { data: Data };
   };
-  quantity?: number;
-  selected?: boolean;
 }
 
-function ProductCard({ id, attributes }: Product) {
+function ProductCard({ attributes }: Product) {
   const imageUrl = getStrapiMedia(attributes.cover.data?.attributes.url);
   return (
     <div className="flex flex-col items-center max-w-sm w-32 rounded-lg shadowgray-200 shadow cursor-pointer hover:shadow-lg">

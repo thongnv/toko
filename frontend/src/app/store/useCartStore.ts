@@ -5,22 +5,26 @@ import { persist } from "zustand/middleware";
 
 import { Product } from "../components/Products";
 
-interface State {
-  cart: Product[];
-  totalItems: number;
+export interface ProductCartItem {
+  product: Product;
+  quantity: number;
   totalPrice: number;
+  selected: boolean;
+}
+
+interface State {
+  cart: ProductCartItem[];
 }
 
 interface Actions {
-  addToCart: (Item: Product) => void;
-  removeFromCart: (Item: Product) => void;
-  removeOneFromCart: (Item: Product) => void;
+  addToCart: (Product: Product) => void;
+  updateCart: (Cart: ProductCartItem[]) => void;
+  removeFromCart: (Item: ProductCartItem) => void;
+  removeOneFromCart: (Item: ProductCartItem) => void;
 }
 
 const INITIAL_STATE: State = {
   cart: [],
-  totalItems: 0,
-  totalPrice: 0,
 };
 
 console.log("reload state..................");
@@ -29,55 +33,49 @@ export const useCartStore = create(
   persist<State & Actions>(
     (set, get) => ({
       cart: INITIAL_STATE.cart,
-      totalItems: INITIAL_STATE.totalItems,
-      totalPrice: INITIAL_STATE.totalPrice,
       addToCart: (product: Product) => {
         const cart = get().cart;
-        const cartItem = cart.find((item) => item.id === product.id);
+        const cartItem = cart.find((item) => item.product.id === product.id);
+        let updatedCart: ProductCartItem[];
         if (cartItem) {
-          const updatedCart = cart.map((item) =>
-            item.id === product.id
+          updatedCart = cart.map((item) =>
+            item.product.id === product.id
               ? { ...item, quantity: (item.quantity as number) + 1 }
               : item
           );
-          set((state) => ({
-            cart: updatedCart,
-            totalItems: state.totalItems + 1,
-            totalPrice: state.totalPrice + product.attributes.price,
-          }));
         } else {
-          const updatedCart = [...cart, { ...product, quantity: 1 }];
-          set((state) => ({
-            cart: updatedCart,
-            totalItems: state.totalItems + 1,
-            totalPrice: state.totalPrice + product.attributes.price,
-          }));
+          const addedItem: ProductCartItem = {
+            product,
+            quantity: 1,
+            totalPrice: product.attributes.price,
+            selected: false,
+          };
+          updatedCart = [...cart, addedItem];
         }
-      },
-      removeFromCart: (product: Product) => {
-        const itemCount = (product.quantity || 0);
-        set((state) => ({
-          cart: state.cart.filter((item) => item.id !== product.id),
-          totalItems: state.totalItems - itemCount,
-          totalPrice: state.totalPrice - itemCount * product.attributes.price,
+        set(() => ({
+          cart: updatedCart,
         }));
       },
-      removeOneFromCart: (product: Product) => {
+      removeFromCart: (item: ProductCartItem) => {
+        set((state) => ({
+          cart: state.cart.filter((i) => i.product.id !== item.product.id),
+        }));
+      },
+      removeOneFromCart: (item: ProductCartItem) => {
         const cart = get().cart;
-        const cartItem = cart.find((item) => item.id === product.id);
+        const cartItem = cart.find((i) => i.product.id === item.product.id);
         if (cartItem) {
-          const updatedCart = cart.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: (item.quantity as number) - 1 }
-              : item
-          );
-          set((state) => ({
-            cart: updatedCart,
-            totalItems: state.totalItems - 1,
-            totalPrice: state.totalPrice - product.attributes.price,
+          set(() => ({
+            cart,
           }));
         }
-      }
+      },
+      updateCart: (cart: ProductCartItem[]) => {
+        set(() => ({
+          cart,
+          totalItems: cart.length,
+        }));
+      },
     }),
     {
       name: "cart-storage",

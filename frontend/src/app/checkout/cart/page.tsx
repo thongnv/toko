@@ -1,49 +1,104 @@
 "use client";
 
-import { Product } from "@/app/components/Products";
 import useFromStore from "@/app/hooks/useFromStore";
-import { useCartStore } from "@/app/store/useCartStore";
+import { ProductCartItem, useCartStore } from "@/app/store/useCartStore";
 import { currencyFormat } from "@/app/utils/product.helper";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
 export default async function ProductRoute() {
   const cart = useFromStore(useCartStore, (state) => state.cart);
-  const addToCart = useCartStore((state) => state.addToCart);
+  const updateCart = useCartStore((state) => state.updateCart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
-  const removeOneFromCart = useCartStore((state) => state.removeOneFromCart);
+  // const removeOneFromCart = useCartStore((state) => state.removeOneFromCart);
+  const [cartItems, setCartItems] = useState<ProductCartItem[]>(cart ?? []);
+  const [selectedItems, setselectedItems] = useState<ProductCartItem[]>([]);
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    if (cart) {
-      const selectedProducts = cart.filter((product) => product.selected);
-      setSelectedProducts(selectedProducts);
-      setSelectAll(cart.length === selectedProducts.length);
-    }
-  }, [cart]);
+  const productsToPrice = (items: ProductCartItem[]) =>
+    items.reduce(
+      (totalPrice, item) =>
+        totalPrice + (item.quantity ?? 0) * item.product.attributes.price,
+      0
+    );
 
-  const toggleAllItems = (checked: boolean) => {
-    setSelectAll(!!checked);
-    cart?.forEach((product) => (product.selected = checked));
-    if (cart && checked) {
-      setTotalPrice(
-        cart.reduce((result, product) => result + product.attributes.price, 0)
-      );
-    } else {
-      setTotalPrice(0);
+  const increaseOneProductItem = (item: ProductCartItem) => {
+    if (!cartItems) return;
+    const cartItem = cartItems.find((i) => i.product.id === item.product.id);
+    if (!cartItem) return;
+    const updatedCart = cartItems.map((i) =>
+      i.product.id === item.product.id ? { ...i, quantity: i.quantity + 1 } : i
+    );
+    setCartItems(updatedCart);
+    updateCart(updatedCart);
+  };
+
+  const decreaseOneProductItem = (item: ProductCartItem) => {
+    if (!cartItems) return;
+    const cartItem = cartItems.find((i) => i.product.id === item.product.id);
+    if (cartItem) {
+      let updatedCart: ProductCartItem[];
+      const quantity = cartItem.quantity - 1;
+      if (quantity > 0) {
+        updatedCart = cartItems.map((i) =>
+          i.product.id === item.product.id
+            ? { ...i, quantity: i.quantity - 1 }
+            : i
+        );
+      } else {
+        updatedCart = cartItems.filter((i) => i.product.id !== item.product.id);
+      }
+      setCartItems(updatedCart);
+      updateCart(updatedCart);
     }
   };
 
-  const handleClickItem = (product: Product, checked: boolean) => {
-    product.selected = checked;
-    const products = checked
-      ? [...selectedProducts, product]
-      : selectedProducts.filter((p) => p.id !== product.id);
-    setSelectedProducts(products);
-    setSelectAll(cart?.length === products.length);
+  const removeItemFromCart = (item: ProductCartItem) => {
+    if (!cartItems) return;
+    const cartItem = cartItems.find((i) => i.product.id === item.product.id);
+    if (!cartItem)
+      throw new Error("Item not found: " + item.product.attributes.name);
+    const updatedCart = cartItems.filter(
+      (i) => i.product.id !== item.product.id
+    );
+    setCartItems(updatedCart);
+    updateCart(updatedCart);
+  };
+
+  useEffect(() => {
+    if (cart) {
+      setCartItems(cart);
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    const selectedCartItems = cartItems.filter((item) => item.selected);
+    setselectedItems(selectedCartItems);
+  }, [cartItems]);
+
+  useEffect(() => {
+    setTotalPrice(productsToPrice(selectedItems));
+  }, [selectedItems]);
+
+  const toggleAllItems = (checked: boolean) => {
+    if (!cartItems?.length) return;
+    setSelectAll(!!checked);
+    const updatedCart = cartItems.map((product) => ({
+      ...product,
+      selected: checked,
+    }));
+    setCartItems(updatedCart);
+  };
+
+  const handleClickItem = (item: ProductCartItem, checked: boolean) => {
+    item.selected = checked;
+    const items = checked
+      ? [...selectedItems, item]
+      : selectedItems.filter((i) => i.product.id !== item.product.id);
+    setselectedItems(items);
+    setSelectAll(cartItems?.length === items.length);
   };
 
   return (
@@ -69,49 +124,49 @@ export default async function ProductRoute() {
               <DeleteOutlined className="cursor-pointer" rev={undefined} />
             </span>
           </div>
-          {cart?.map((product) => (
+          {cartItems.map((item) => (
             <div
-              key={product.id}
+              key={item.product.id}
               className="bg-white p-4 rounded-lg grid grid-cols-6 grid-flow-col gap-4 align-center"
             >
               <div className="flex gap-2 align-center col-span-2">
                 <input
                   className="cursor-pointer leading-5"
                   type="checkbox"
-                  checked={!!product.selected}
+                  checked={!!item.selected}
                   onChange={(event) =>
-                    handleClickItem(product, event.target.checked)
+                    handleClickItem(item, event.target.checked)
                   }
                 />
-                <div>{product.attributes.name}</div>
+                <div>{item.product.attributes.name}</div>
               </div>
-              <div>{currencyFormat(product.attributes.price)}</div>
+              <div>{currencyFormat(item.product.attributes.price)}</div>
               <div className="flex gap-1">
                 <button
                   className="border rounded-lg px-3 py-1"
-                  onClick={() => removeOneFromCart(product)}
+                  onClick={() => decreaseOneProductItem(item)}
                 >
                   -
                 </button>
                 <button className="border rounded-lg px-4 py-1">
-                  {product.quantity}
+                  {item.quantity}
                 </button>
                 <button
                   className="border rounded-lg px-3 py-1"
-                  onClick={() => addToCart(product)}
+                  onClick={() => increaseOneProductItem(item)}
                 >
                   +
                 </button>
               </div>
               <div>
-                {product.quantity &&
-                  currencyFormat(product.attributes.price * product.quantity)}
+                {item.quantity &&
+                  currencyFormat(item.product.attributes.price * item.quantity)}
               </div>
               <span className="text-center">
                 <DeleteOutlined
                   className="cursor-pointer"
                   rev={undefined}
-                  onClick={() => removeFromCart(product)}
+                  onClick={() => removeItemFromCart(item)}
                 />
               </span>
             </div>

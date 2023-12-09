@@ -30,7 +30,7 @@ function NavLinks() {
   const path = usePathname();
 
   const [displayProfileMenu, setDisplayProfileMenu] = useState(false);
-  const totalItems = useFromStore(useCartStore, (state) => state.totalItems);
+  const totalItems = useFromStore(useCartStore, (state) => state.cart.length);
 
   return (
     <ul className="items-stretch hidden h-10 space-x-3 lg:flex">
